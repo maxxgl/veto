@@ -14,4 +14,4 @@
 	<nav><span>Home</span></nav>
 </header>
 
-{@render children?.()}
+<div>{@render children?.()}</div>

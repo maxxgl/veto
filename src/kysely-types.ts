@@ -42,12 +42,10 @@ export interface Rounds {
 
 export interface Sessions {
   created_at: Generated<string | null>;
-  date_created: Generated<string | null>;
   gps_lat: number;
   gps_lng: number;
   id: Generated<number | null>;
   owner_id: number;
-  updated_at: Generated<string | null>;
   uuid_code: string;
 }
 
