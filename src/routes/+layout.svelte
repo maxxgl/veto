@@ -9,4 +9,9 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<header class="flex gap-2">
+	<div>x</div>
+	<nav><span>Home</span></nav>
+</header>
+
 {@render children?.()}
