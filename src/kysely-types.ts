@@ -12,13 +12,12 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
 export interface Options {
   created_at: Generated<string | null>;
   description: string | null;
-  genre_id: number | null;
+  genre: string | null;
   gps_lat: number | null;
   gps_lng: number | null;
   id: Generated<number | null>;
   name: string;
   rating: number | null;
-  updated_at: Generated<string | null>;
 }
 
 export interface Players {
@@ -27,26 +26,22 @@ export interface Players {
   gps_lng: number | null;
   id: Generated<number | null>;
   name: string;
-  updated_at: Generated<string | null>;
 }
 
 export interface Rounds {
   created_at: Generated<string | null>;
   ended_at: string | null;
-  id: Generated<number | null>;
-  round_number: number;
-  session_id: number;
+  round: number;
+  session_uuid: string;
   started_at: Generated<string | null>;
-  status: Generated<string | null>;
 }
 
 export interface Sessions {
   created_at: Generated<string | null>;
   gps_lat: number;
   gps_lng: number;
-  id: Generated<number | null>;
   owner_id: number;
-  uuid_code: string;
+  uuid: string;
 }
 
 export interface Votes {
@@ -54,6 +49,7 @@ export interface Votes {
   option_id: number;
   player_id: number;
   round_id: number;
+  session_uuid: string;
   voted_at: Generated<string | null>;
 }
 

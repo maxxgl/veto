@@ -1,27 +1,53 @@
 import type { Actions } from './$types';
 import { db } from '$lib';
+import { error, redirect } from '@sveltejs/kit';
 
 export const load = async ({ params }) => {
 	const data = await db
 		.selectFrom('sessions')
 		.selectAll()
-		.where('uuid_code', '=', params.code)
-		.execute();
+		.where('uuid', '=', params.code)
+		.executeTakeFirst();
 
-	return { data };
+	if (!data) {
+		error(404);
+	}
+
+	const options = await db.selectFrom('options').selectAll().execute();
+	// if (!data) {
+	// 	const result = await db
+	// 		.insertInto('sessions')
+	// 		.values({
+	// 			uuid: 'b941d622-5c5f-4cc6-8e23-1d84049dc410',
+	// 			owner_id: 1,
+	// 			gps_lat: 10,
+	// 			gps_lng: 10
+	// 		})
+	// 		.execute();
+	//
+	// 	return { data: result };
+	// }
+
+	return { data, options };
 };
 
 export const actions = {
-	default: async () => {
+	addUser: async () => {
+		const result = await db.selectFrom('players').selectAll().execute();
+
+		return result;
+	},
+	start: async ({ url, params }) => {
+		console.log(params.code);
 		const result = await db
-			.insertInto('sessions')
+			.insertInto('rounds')
 			.values({
-				uuid_code: 'b941d622-5c5f-4cc6-8e23-1d84049dc410',
-				owner_id: 1,
-				gps_lat: 10,
-				gps_lng: 10
+				round: 1,
+				session_uuid: params.code
 			})
-			.execute();
-		console.log(result);
+			.returningAll()
+			.executeTakeFirstOrThrow();
+
+		redirect(303, url.pathname + '/' + result.round);
 	}
 } satisfies Actions;
