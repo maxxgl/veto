@@ -14,6 +14,16 @@ export const load = async ({ params }) => {
 		error(404, 'Round not found');
 	}
 
+	const session = await db
+		.selectFrom('sessions')
+		.select('owner_id')
+		.where('uuid', '=', params.code)
+		.executeTakeFirst();
+
+	if (!session) {
+		error(404, 'Session not found');
+	}
+
 	const votedOptionIds = await db
 		.selectFrom('votes')
 		.select('option_id')
@@ -29,7 +39,31 @@ export const load = async ({ params }) => {
 		.where('id', 'not in', votedIds.length > 0 ? votedIds : [-1])
 		.execute();
 
-	return { options, round };
+	const votesThisRound = await db
+		.selectFrom('votes')
+		.innerJoin('players', 'votes.player_id', 'players.id')
+		.select(['votes.player_id', 'players.name'])
+		.where('session_uuid', '=', params.code)
+		.where('round_id', '=', Number(params.round))
+		.execute();
+
+	const players = await db
+		.selectFrom('players')
+		.selectAll()
+		.where('id', 'in', db.selectFrom('sessions').select('owner_id').where('uuid', '=', params.code))
+		.execute();
+
+	const currentPlayerId = session.owner_id;
+	const hasVoted = votesThisRound.some((v) => v.player_id === currentPlayerId);
+
+	return {
+		options,
+		round,
+		isMyTurn: !hasVoted,
+		currentPlayerId,
+		votesThisRound,
+		players
+	};
 };
 
 export const actions = {

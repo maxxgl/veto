@@ -7,6 +7,16 @@
 
 <div class="mb-8">{params.code}</div>
 
+{#if data.isMyTurn}
+	<div class="alert alert-info mb-4">
+		<span>It's your turn! Eliminate an option below.</span>
+	</div>
+{:else}
+	<div class="alert mb-4">
+		<span>Waiting for other players to vote...</span>
+	</div>
+{/if}
+
 <form class="mb-8 mx-auto" method="POST" action="?/addUser">
 	<button class="btn btn-neutral mt-4">add a user</button>
 </form>
@@ -24,7 +34,7 @@
 		</div>
 		<form method="POST">
 			<input type="hidden" name="option_id" value={x.id} />
-			<button class="btn btn-error btn-outline">Eliminate</button>
+			<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>Eliminate</button>
 		</form>
 	</div>
 {/each}
