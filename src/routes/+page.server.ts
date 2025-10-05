@@ -2,14 +2,72 @@ import type { Actions } from './$types';
 import { redirect, error } from '@sveltejs/kit';
 import { db, generateShortCode } from '$lib';
 
+interface Restaurant {
+	name: string;
+	lat: number;
+	lon: number;
+	cuisine?: string;
+}
+
+interface OverpassElement {
+	tags?: { name?: string; cuisine?: string };
+	lat?: number;
+	lon?: number;
+	center?: { lat: number; lon: number };
+}
+
+interface OverpassResponse {
+	elements: OverpassElement[];
+}
+
+async function getRestaurantsFromLocation(
+	latitude: number,
+	longitude: number,
+	radius = 2000
+): Promise<Restaurant[]> {
+	const query = `
+		[out:json];
+		(
+			node["amenity"="restaurant"](around:${radius},${latitude},${longitude});
+			way["amenity"="restaurant"](around:${radius},${latitude},${longitude});
+		);
+		out body;
+	`;
+
+	const response = await fetch('https://overpass-api.de/api/interpreter', {
+		method: 'POST',
+		body: query
+	});
+
+	if (!response.ok) {
+		throw new Error('Failed to fetch restaurants from Overpass API');
+	}
+
+	const data = (await response.json()) as OverpassResponse;
+	const restaurants: Restaurant[] = data.elements
+		.filter((el) => el.tags?.name)
+		.map((el) => ({
+			name: el.tags!.name!,
+			lat: el.lat || el.center?.lat || 0,
+			lon: el.lon || el.center?.lon || 0,
+			cuisine: el.tags!.cuisine
+		}))
+		.filter((r) => r.lat && r.lon);
+
+	return restaurants;
+}
+
 export const actions = {
-	create: async ({ locals, request }) => {
+	// create: async ({ locals, request }) => {
+	create: async ({ locals }) => {
 		if (!locals.user) {
 			redirect(303, '/login?action=create');
 		}
-		const formData = await request.formData();
-		const latitude = parseFloat(formData.get('latitude')?.toString() || '0');
-		const longitude = parseFloat(formData.get('longitude')?.toString() || '0');
+		// const formData = await request.formData();
+		// const latitude = parseFloat(formData.get('latitude')?.toString() || '0');
+		// const longitude = parseFloat(formData.get('longitude')?.toString() || '0');
+		const latitude = 35.093644;
+		const longitude = -106.5184779;
 
 		let code: string;
 		let attempts = 0;
@@ -36,6 +94,22 @@ export const actions = {
 						user_id: locals.user.id
 					})
 					.execute();
+
+				const restaurants = await getRestaurantsFromLocation(latitude, longitude);
+
+				if (restaurants.length > 0) {
+					await db
+						.insertInto('options')
+						.values(
+							restaurants.map((r) => ({
+								name: r.name,
+								gps_lat: r.lat,
+								gps_lng: r.lon,
+								genre: r.cuisine || null
+							}))
+						)
+						.execute();
+				}
 
 				redirect(303, '/' + code);
 			} catch (err) {
