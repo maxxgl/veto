@@ -8,7 +8,7 @@
 	<div class="mb-4">
 		<div class="avatar-group -space-x-4 rtl:space-x-reverse">
 			{#each data.participants as participant (participant.id)}
-				<div class="avatar placeholder" title={participant.username}>
+				<div class="avatar avatar-placeholder" title={participant.username}>
 					<div class="bg-neutral text-neutral-content w-10 rounded-full">
 						<span class="text-sm">{participant.username[0].toUpperCase()}</span>
 					</div>
