@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import type { ActionData } from './$types';
 
-	// import type { ActionData } from './$types';
-	//
-	// let { form }: { form: ActionData } = $props();
+	let { form }: { form: ActionData } = $props();
 </script>
 
 <div class="container mx-auto max-w-md p-8">
@@ -33,11 +32,11 @@
 				class="input input-bordered w-full"
 			/>
 		</div>
-		<!-- {#if form?.error} -->
-		<!-- 	<div class="alert alert-error"> -->
-		<!-- 		<span>{form.error}</span> -->
-		<!-- 	</div> -->
-		<!-- {/if} -->
+		{#if form?.error}
+			<div class="alert alert-error">
+				<span>{form.error}</span>
+			</div>
+		{/if}
 		<button type="submit" class="btn btn-primary w-full">Login</button>
 	</form>
 	<p class="mt-4 text-center">

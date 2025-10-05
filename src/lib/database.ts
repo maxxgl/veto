@@ -70,9 +70,9 @@ database.exec(`
  
   INSERT OR IGNORE INTO users (id, username, hashed_password, gps_lat, gps_lng, created_at)
   VALUES
-      (1, 'one',   'asdfadsf', 12.8456, -78.7012, '2025-09-06T15:00:00.088'),
-      (2, 'two',   'asdfadsf', 12.2456, -78.3012, '2025-09-06T15:00:00.088'),
-      (3, 'three', 'asdfadsf', 12.8456, -78.9012, '2025-09-06T15:00:00.088');
+      (1, 'one',   'asdf', 12.8456, -78.7012, '2025-09-06T15:00:00.088'),
+      (2, 'two',   'asdf', 12.2456, -78.3012, '2025-09-06T15:00:00.088'),
+      (3, 'three', 'asdf', 12.8456, -78.9012, '2025-09-06T15:00:00.088');
 
   INSERT OR IGNORE INTO sessions (uuid, gps_lat, gps_lng, owner_id)
   VALUES

@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect, fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { db } from '$lib/database';
 
@@ -9,7 +9,7 @@ export const actions: Actions = {
 		const password = data.get('password')?.toString();
 
 		if (!username || !password) {
-			redirect(303, '/login');
+			return fail(400, { error: 'Username and password are required' });
 		}
 
 		const user = await db
@@ -19,7 +19,7 @@ export const actions: Actions = {
 			.executeTakeFirst();
 
 		if (!user || user.hashed_password !== password) {
-			redirect(303, '/login');
+			return fail(401, { error: 'Invalid username or password' });
 		}
 
 		const sessionId = crypto.randomUUID();
