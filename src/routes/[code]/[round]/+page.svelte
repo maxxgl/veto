@@ -67,12 +67,12 @@
 	});
 </script>
 
-<div class="mb-8" class:opacity-0={showWinner} class:pointer-events-none={showWinner}>
+<div class="mb-8">
 	<div class="text-sm opacity-70">{params.code}</div>
 	<div class="text-2xl font-bold">Round {data.round.round}</div>
 </div>
 
-{#if !showWinner}
+{#if !winningOption}
 	{#if data.isMyTurn}
 		<div class="alert alert-info mb-4">
 			<span>It's your turn! Eliminate an option below.</span>
@@ -82,10 +82,6 @@
 			<span>Waiting for other players to vote...</span>
 		</div>
 	{/if}
-
-	<form class="mb-8 mx-auto" method="POST" action="?/addUser">
-		<button class="btn btn-neutral mt-4">add a user</button>
-	</form>
 {/if}
 
 {#if showWinner && winningOption}
@@ -106,16 +102,14 @@
 	{@const isVetoedThisRound = data.vetoedOptions[x.id]}
 	{@const isVetoedPrevious = data.previousVotesMap[x.id]}
 	{@const isVetoed = isVetoedThisRound || isVetoedPrevious}
-	{@const isWinner = showWinner && winningOption?.id === x.id}
+	{@const isWinner = winningOption?.id === x.id}
 	<div
-		class="py-4 flex justify-between items-center gap-8 transition-all duration-500 relative"
+		class="py-4 flex justify-between items-center gap-8 transition-all duration-500"
 		class:opacity-50={isVetoed}
-		class:winner-expanded={isWinner}
-		class:opacity-0={showWinner && !isWinner}
-		class:pointer-events-none={showWinner && !isWinner}
+		class:winner-expanded={showWinner && isWinner}
 		animate:flip={{ duration: 400 }}
 	>
-		{#if isWinner}
+		{#if isWinner && showWinner}
 			<div class="winner-content z-20">
 				<button
 					class="absolute top-4 right-4 btn btn-sm btn-circle"
@@ -160,12 +154,11 @@
 				</div>
 			</div>
 			{#if isVetoed}
-				<div class="flex items-center gap-2">
-					<span class="text-sm"
-						>Vetoed by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</span
-					>
-					<button class="btn btn-error btn-outline" disabled>Eliminate</button>
-				</div>
+				<span class="text-sm">
+					Vetoed by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}
+				</span>
+			{:else if isWinner}
+				<button class="btn btn-success">Winner!</button>
 			{:else}
 				<form method="POST" use:enhance>
 					<input type="hidden" name="option_id" value={x.id} />

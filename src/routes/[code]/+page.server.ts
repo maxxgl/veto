@@ -45,11 +45,6 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 };
 
 export const actions = {
-	addUser: async () => {
-		const result = await db.selectFrom('users').selectAll().execute();
-
-		return result;
-	},
 	start: async ({ url, params, locals }) => {
 		if (!locals.user) {
 			error(401, 'Must be logged in to start session');
