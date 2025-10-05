@@ -70,6 +70,14 @@
 	<div class="text-2xl font-bold">Round {data.round.round}</div>
 </div>
 
+{#if form?.warning}
+	<div class="toast toast-top toast-center z-50">
+		<div class="alert alert-warning">
+			<span>{form.warning}</span>
+		</div>
+	</div>
+{/if}
+
 {#if !winningOption}
 	{#if data.isMyTurn}
 		<div class="alert alert-info mb-4">

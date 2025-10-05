@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib';
-import { error, redirect } from '@sveltejs/kit';
+import { error, redirect, fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params, locals, depends }) => {
 	depends('round:data');
@@ -104,7 +104,7 @@ export const actions = {
 
 		if (!round) error(404, 'Round not found');
 		if (!isParticipant) error(403, 'Not a participant in this session');
-		if (existingVote) error(400, 'This option has already been vetoed');
+		if (existingVote) return fail(400, { warning: 'This option has already been vetoed' });
 
 		await db
 			.insertInto('votes')
