@@ -1,11 +1,32 @@
 import type { Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
-
-const getNewRoom = () => 'b941d622-5c5f-4cc6-8e23-1d84049dc410';
+import { db } from '$lib';
+import { randomUUID } from 'crypto';
 
 export const actions = {
 	default: async () => {
-		const code = getNewRoom();
-		redirect(303, '/' + code);
+		const owner = await db
+			.insertInto('players')
+			.values({
+				name: 'Owner',
+				gps_lat: null,
+				gps_lng: null
+			})
+			.returningAll()
+			.executeTakeFirstOrThrow();
+
+		const uuid = randomUUID();
+
+		await db
+			.insertInto('sessions')
+			.values({
+				uuid,
+				gps_lat: 0,
+				gps_lng: 0,
+				owner_id: owner.id
+			})
+			.execute();
+
+		redirect(303, '/' + uuid);
 	}
 } satisfies Actions;

@@ -22,3 +22,4 @@
 - **Framework**: SvelteKit 2 + Svelte 5, Kysely for DB queries, Tailwind + DaisyUI for styling
 - **Database**: Export `db` from `src/lib/database.ts`, use Kysely typed queries
 - **Error handling**: Use SvelteKit `redirect()` and `error()` helpers
+- Code should be as declarative as possible, and functional as is practical
