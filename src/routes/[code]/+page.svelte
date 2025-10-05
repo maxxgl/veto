@@ -47,7 +47,7 @@
 	</div>
 {/each}
 
-{#if data.isParticipant}
+{#if data.isOwner}
 	<form class="mt-8 mx-auto" method="POST" action="?/start">
 		<button class="btn btn-primary mt-4">Start</button>
 	</form>

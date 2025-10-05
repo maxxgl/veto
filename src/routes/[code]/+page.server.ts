@@ -37,7 +37,15 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	// 	return { data: result };
 	// }
 
-	return { data, options, isParticipant: !!isParticipant, currentUser: locals.user };
+	const isOwner = locals.user?.id === data.owner_id;
+
+	return {
+		data,
+		options,
+		isParticipant: !!isParticipant,
+		currentUser: locals.user,
+		isOwner
+	};
 };
 
 export const actions = {
@@ -46,8 +54,25 @@ export const actions = {
 
 		return result;
 	},
-	start: async ({ url, params }) => {
-		console.log(params.code);
+	start: async ({ url, params, locals }) => {
+		if (!locals.user) {
+			error(401, 'Must be logged in to start session');
+		}
+
+		const session = await db
+			.selectFrom('sessions')
+			.select('owner_id')
+			.where('uuid', '=', params.code)
+			.executeTakeFirst();
+
+		if (!session) {
+			error(404, 'Session not found');
+		}
+
+		if (session.owner_id !== locals.user.id) {
+			error(403, 'Only the session owner can start the session');
+		}
+
 		const result = await db
 			.insertInto('rounds')
 			.values({
