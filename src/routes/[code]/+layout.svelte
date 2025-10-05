@@ -9,7 +9,12 @@
 		<div class="avatar-group -space-x-4 rtl:space-x-reverse">
 			{#each data.participants as participant (participant.id)}
 				<div class="avatar avatar-placeholder overflow-visible" title={participant.username}>
-					<div class="bg-neutral text-neutral-content w-10 rounded-full overflow-visible">
+					<div
+						class="bg-neutral text-neutral-content w-10 rounded-full overflow-visible {participant.id ===
+						data.user?.id
+							? 'ring ring-primary ring-offset-base-100 ring-offset-2'
+							: ''}"
+					>
 						<span class="text-sm">{participant.username[0].toUpperCase()}</span>
 						{#if participant.isOwner}
 							<div class="absolute -top-1 -right-1">
