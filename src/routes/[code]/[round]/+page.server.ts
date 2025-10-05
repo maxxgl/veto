@@ -13,7 +13,7 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 			.where('session_code', '=', params.code)
 			.where('round', '=', roundNum)
 			.executeTakeFirst(),
-		db.selectFrom('options').selectAll().execute(),
+		db.selectFrom('options').selectAll().where('session_code', '=', params.code).execute(),
 		db
 			.selectFrom('votes')
 			.innerJoin('users', 'votes.user_id', 'users.id')
@@ -142,6 +142,7 @@ export const actions = {
 			const remainingCount = await db
 				.selectFrom('options')
 				.select(db.fn.count('id').as('count'))
+				.where('session_code', '=', params.code)
 				.where('id', 'not in', votedIds.length > 0 ? votedIds : [-1])
 				.executeTakeFirstOrThrow();
 

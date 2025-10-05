@@ -24,6 +24,7 @@ export interface Options {
   id: Generated<number>;
   name: string;
   rating: number | null;
+  session_code: string;
 }
 
 export interface Rounds {

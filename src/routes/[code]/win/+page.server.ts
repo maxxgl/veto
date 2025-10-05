@@ -24,6 +24,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const winningOption = await db
 		.selectFrom('options')
 		.selectAll()
+		.where('session_code', '=', params.code)
 		.where('id', 'not in', votedIds.length > 0 ? votedIds : [-1])
 		.executeTakeFirst();
 

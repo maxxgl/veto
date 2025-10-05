@@ -50,7 +50,8 @@ export const actions = {
 								name: r.name,
 								gps_lat: r.lat,
 								gps_lng: r.lon,
-								genre: r.cuisine || null
+								genre: r.cuisine || null,
+								session_code: code
 							}))
 						)
 						.execute();

@@ -31,7 +31,11 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 		.orderBy('round', 'desc')
 		.executeTakeFirst();
 
-	const options = await db.selectFrom('options').selectAll().execute();
+	const options = await db
+		.selectFrom('options')
+		.selectAll()
+		.where('session_code', '=', params.code)
+		.execute();
 	const isOwner = locals.user?.id === data.owner_id;
 
 	return {
