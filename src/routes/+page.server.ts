@@ -4,6 +4,10 @@ import { db, generateShortCode } from '$lib';
 
 export const actions = {
 	create: async ({ locals }) => {
+		if (!locals.user) {
+			redirect(303, '/login?redirect=/');
+		}
+
 		let code: string;
 		let attempts = 0;
 		const maxAttempts = 10;
@@ -18,7 +22,7 @@ export const actions = {
 						code,
 						gps_lat: 0,
 						gps_lng: 0,
-						owner_id: locals.user!.id
+						owner_id: locals.user.id
 					})
 					.execute();
 
@@ -26,7 +30,7 @@ export const actions = {
 					.insertInto('session_players')
 					.values({
 						session_code: code,
-						user_id: locals.user!.id
+						user_id: locals.user.id
 					})
 					.execute();
 
@@ -41,7 +45,11 @@ export const actions = {
 
 		error(500, 'Failed to generate unique session code');
 	},
-	join: async ({ request }) => {
+	join: async ({ request, locals }) => {
+		if (!locals.user) {
+			redirect(303, '/login?redirect=/');
+		}
+
 		const formData = await request.formData();
 		const code = formData.get('code')?.toString()?.toUpperCase();
 

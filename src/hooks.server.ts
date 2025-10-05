@@ -26,8 +26,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	const publicRoutes = ['/login'];
-	const isPublicRoute = publicRoutes.some((route) => event.url.pathname.startsWith(route));
+	const publicRoutes = ['/login', '/'];
+	const isPublicRoute = publicRoutes.some((route) => event.url.pathname === route);
 
 	if (!event.locals.user && !isPublicRoute) {
 		redirect(303, '/login');
