@@ -3,8 +3,7 @@ import { redirect, error } from '@sveltejs/kit';
 import { db, generateShortCode, getRestaurantsFromLocation } from '$lib';
 
 export const actions = {
-	// create: async ({ locals, request }) => {
-	create: async ({ locals }) => {
+	create: async ({ locals, request }) => {
 		// We add this intermediate variable because typescript throws an error
 		// for some reason if you just narrow the `locals.user` type in the tx
 		const user = locals.user;
@@ -12,11 +11,9 @@ export const actions = {
 			throw redirect(303, '/login?action=create');
 		}
 
-		// const formData = await request.formData();
-		// const latitude = parseFloat(formData.get('latitude')?.toString() || '0');
-		// const longitude = parseFloat(formData.get('longitude')?.toString() || '0');
-		const latitude = 35.093644;
-		const longitude = -106.5184779;
+		const formData = await request.formData();
+		const latitude = parseFloat(formData.get('latitude')?.toString() || '0');
+		const longitude = parseFloat(formData.get('longitude')?.toString() || '0');
 
 		const code = await db.transaction().execute(async (trx) => {
 			const code = await generateShortCode(trx);
