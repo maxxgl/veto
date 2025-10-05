@@ -34,6 +34,12 @@ export interface Rounds {
   started_at: Generated<string | null>;
 }
 
+export interface SessionPlayers {
+  joined_at: Generated<string | null>;
+  session_uuid: string;
+  user_id: number;
+}
+
 export interface Sessions {
   created_at: Generated<string | null>;
   gps_lat: number;
@@ -64,6 +70,7 @@ export interface DB {
   auth_sessions: AuthSessions;
   options: Options;
   rounds: Rounds;
+  session_players: SessionPlayers;
   sessions: Sessions;
   users: Users;
   votes: Votes;

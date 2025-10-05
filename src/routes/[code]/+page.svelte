@@ -1,15 +1,39 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import type { PageProps } from './$types';
 
 	let { data, params, form }: PageProps = $props();
 	console.log(data, form);
 </script>
 
-<div class="mb-8">{params.code}</div>
+<div class="mb-8">
+	<div class="text-2xl font-bold mb-2">Session</div>
+	<div class="text-sm opacity-70">Code: {params.code}</div>
+</div>
 
-<form class="mb-8 mx-auto" method="POST" action="?/addUser">
-	<button class="btn btn-neutral mt-4">add a user</button>
-</form>
+{#if data.currentUser && !data.isParticipant}
+	<div class="alert alert-warning mb-4">
+		<span>You are not yet a participant in this session.</span>
+		<a
+			href={resolve(`/${params.code}/join`)}
+			class="btn btn-sm btn-primary"
+			data-sveltekit-preload-data
+		>
+			Join Session
+		</a>
+	</div>
+{:else if !data.currentUser}
+	<div class="alert alert-info mb-4">
+		<span>Log in to join this session.</span>
+		<a
+			href={resolve(`/login?redirect=/${params.code}/join`)}
+			class="btn btn-sm btn-primary"
+			data-sveltekit-preload-data
+		>
+			Log In
+		</a>
+	</div>
+{/if}
 
 {#each data.options as x (x.id)}
 	<div class="py-4">
@@ -23,6 +47,8 @@
 	</div>
 {/each}
 
-<form class="mt-8 mx-auto" method="POST" action="?/start">
-	<button class="btn btn-primary mt-4">Start</button>
-</form>
+{#if data.isParticipant}
+	<form class="mt-8 mx-auto" method="POST" action="?/start">
+		<button class="btn btn-primary mt-4">Start</button>
+	</form>
+{/if}

@@ -1,8 +1,8 @@
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib';
 import { error, redirect } from '@sveltejs/kit';
 
-export const load = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, locals }) => {
 	const data = await db
 		.selectFrom('sessions')
 		.selectAll()
@@ -12,6 +12,15 @@ export const load = async ({ params }) => {
 	if (!data) {
 		error(404);
 	}
+
+	const isParticipant = locals.user
+		? await db
+				.selectFrom('session_players')
+				.selectAll()
+				.where('session_uuid', '=', params.code)
+				.where('user_id', '=', locals.user.id)
+				.executeTakeFirst()
+		: null;
 
 	const options = await db.selectFrom('options').selectAll().execute();
 	// if (!data) {
@@ -28,7 +37,7 @@ export const load = async ({ params }) => {
 	// 	return { data: result };
 	// }
 
-	return { data, options };
+	return { data, options, isParticipant: !!isParticipant, currentUser: locals.user };
 };
 
 export const actions = {

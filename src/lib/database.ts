@@ -67,16 +67,21 @@ database.exec(`
       FOREIGN KEY (round_id, session_uuid) REFERENCES rounds(round, session_uuid) ON DELETE CASCADE,
       UNIQUE(user_id, round_id, session_uuid)
   );
+
+  CREATE TABLE IF NOT EXISTS session_players (
+      session_uuid TEXT NOT NULL,
+      user_id INTEGER NOT NULL,
+      joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (session_uuid, user_id),
+      FOREIGN KEY (session_uuid) REFERENCES sessions(uuid) ON DELETE CASCADE,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  );
  
   INSERT OR IGNORE INTO users (id, username, hashed_password, gps_lat, gps_lng, created_at)
   VALUES
       (1, 'one',   'asdf', 12.8456, -78.7012, '2025-09-06T15:00:00.088'),
       (2, 'two',   'asdf', 12.2456, -78.3012, '2025-09-06T15:00:00.088'),
       (3, 'three', 'asdf', 12.8456, -78.9012, '2025-09-06T15:00:00.088');
-
-  INSERT OR IGNORE INTO sessions (uuid, gps_lat, gps_lng, owner_id)
-  VALUES
-      ('b941d622-5c5f-4cc6-8e23-1d84049dc410', 12.456, -78.012, 1);
 
   INSERT OR IGNORE INTO options (name, rating, gps_lat, gps_lng, genre, description)
   VALUES
