@@ -26,7 +26,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	const publicRoutes = ['/login', '/signup'];
+	const publicRoutes = ['/login'];
 	const isPublicRoute = publicRoutes.some((route) => event.url.pathname.startsWith(route));
 
 	if (!event.locals.user && !isPublicRoute) {

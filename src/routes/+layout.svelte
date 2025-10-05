@@ -17,11 +17,8 @@
 	<div class="navbar-end">
 		<nav class="flex gap-4">
 			<a href={resolve('/')} class="btn btn-ghost btn-sm">Home</a>
-			{#if !data.user}
-				<a href={resolve('/login')} class="btn btn-ghost btn-sm">Login</a>
-				<a href={resolve('/signup')} class="btn btn-ghost btn-sm">Sign Up</a>
-			{:else}
-				<a href={resolve('/logout')} class="btn btn-ghost btn-sm">Logout</a>
+			{#if data.user}
+				<span class="btn btn-ghost btn-sm no-animation">{data.user.username}</span>
 			{/if}
 		</nav>
 	</div>

@@ -6,24 +6,24 @@ export const actions: Actions = {
 	default: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const username = data.get('username')?.toString();
-		const password = data.get('password')?.toString();
 
-		if (!username || !password) {
-			return fail(400, { error: 'Username and password are required' });
+		if (!username) {
+			return fail(400, { error: 'Username is required' });
 		}
+
+		const deviceToken = crypto.randomUUID();
 
 		const user = await db
-			.selectFrom('users')
-			.select(['id', 'username', 'hashed_password'])
-			.where('username', '=', username)
-			.executeTakeFirst();
-
-		if (!user || user.hashed_password !== password) {
-			return fail(401, { error: 'Invalid username or password' });
-		}
+			.insertInto('users')
+			.values({
+				username,
+				device_token: deviceToken
+			})
+			.returning(['id', 'username'])
+			.executeTakeFirstOrThrow();
 
 		const sessionId = crypto.randomUUID();
-		const expiresAt = Date.now() + 1000 * 60 * 60 * 24 * 30;
+		const expiresAt = Date.now() + 1000 * 60 * 60 * 24 * 365;
 
 		await db
 			.insertInto('auth_sessions')
@@ -38,7 +38,7 @@ export const actions: Actions = {
 			path: '/',
 			httpOnly: true,
 			sameSite: 'lax',
-			maxAge: 60 * 60 * 24 * 30
+			maxAge: 60 * 60 * 24 * 365
 		});
 
 		redirect(302, '/');

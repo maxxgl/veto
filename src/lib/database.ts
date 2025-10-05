@@ -11,8 +11,8 @@ database.exec(`
 
   CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      username TEXT NOT NULL UNIQUE,
-      hashed_password TEXT NOT NULL,
+      username TEXT NOT NULL,
+      device_token TEXT NOT NULL UNIQUE,
       gps_lat REAL CHECK(gps_lat IS NULL OR (gps_lat BETWEEN -90 AND 90)),
       gps_lng REAL CHECK(gps_lng IS NULL OR (gps_lng BETWEEN -180 AND 180)),
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -77,11 +77,11 @@ database.exec(`
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
   );
  
-  INSERT OR IGNORE INTO users (id, username, hashed_password, gps_lat, gps_lng, created_at)
+  INSERT OR IGNORE INTO users (id, username, device_token, gps_lat, gps_lng, created_at)
   VALUES
-      (1, 'one',   'asdf', 12.8456, -78.7012, '2025-09-06T15:00:00.088'),
-      (2, 'two',   'asdf', 12.2456, -78.3012, '2025-09-06T15:00:00.088'),
-      (3, 'three', 'asdf', 12.8456, -78.9012, '2025-09-06T15:00:00.088');
+      (1, 'one',   'dev-token-1', 12.8456, -78.7012, '2025-09-06T15:00:00.088'),
+      (2, 'two',   'dev-token-2', 12.2456, -78.3012, '2025-09-06T15:00:00.088'),
+      (3, 'three', 'dev-token-3', 12.8456, -78.9012, '2025-09-06T15:00:00.088');
 
   INSERT OR IGNORE INTO options (name, rating, gps_lat, gps_lng, genre, description)
   VALUES

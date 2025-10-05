@@ -50,9 +50,9 @@ export interface Sessions {
 
 export interface Users {
   created_at: Generated<string | null>;
+  device_token: string;
   gps_lat: number | null;
   gps_lng: number | null;
-  hashed_password: string;
   id: Generated<number>;
   username: string;
 }
