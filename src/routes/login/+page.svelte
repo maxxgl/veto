@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { ActionData } from './$types';
-
-	let { form }: { form: ActionData } = $props();
+	// import type { ActionData } from './$types';
+	//
+	// let { form }: { form: ActionData } = $props();
 </script>
 
 <div class="container mx-auto max-w-md p-8">
@@ -31,14 +31,14 @@
 				class="input input-bordered w-full"
 			/>
 		</div>
-		{#if form?.error}
-			<div class="alert alert-error">
-				<span>{form.error}</span>
-			</div>
-		{/if}
+		<!-- {#if form?.error} -->
+		<!-- 	<div class="alert alert-error"> -->
+		<!-- 		<span>{form.error}</span> -->
+		<!-- 	</div> -->
+		<!-- {/if} -->
 		<button type="submit" class="btn btn-primary w-full">Login</button>
 	</form>
-	<p class="mt-4 text-center">
-		Don't have an account? <a href="/signup" class="link" data-sveltekit-preload-data>Sign up</a>
-	</p>
+	<!-- <p class="mt-4 text-center"> -->
+	<!-- 	Don't have an account? <a href="/signup" class="link" data-sveltekit-preload-data>Sign up</a> -->
+	<!-- </p> -->
 </div>
