@@ -47,7 +47,7 @@ export const actions = {
 							name: r.name,
 							gps_lat: r.lat,
 							gps_lng: r.lon,
-							genre: r.cuisine || null,
+							cuisine: r.cuisine || null,
 							session_code: code
 						}))
 					)

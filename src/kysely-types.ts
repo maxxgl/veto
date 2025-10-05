@@ -17,14 +17,15 @@ export interface AuthSessions {
 
 export interface Options {
   created_at: Generated<string | null>;
+  cuisine: string | null;
   description: string | null;
-  genre: string | null;
   gps_lat: number | null;
   gps_lng: number | null;
   id: Generated<number>;
   name: string;
   rating: number | null;
   session_code: string;
+  website: string | null;
 }
 
 export interface Rounds {

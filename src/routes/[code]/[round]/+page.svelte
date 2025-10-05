@@ -136,8 +136,8 @@
 						<div class="text-2xl mb-2">⭐ {x.rating}/5</div>
 					{/if}
 
-					{#if x.genre}
-						<div class="badge badge-primary badge-lg mb-4">{x.genre}</div>
+					{#if x.cuisine}
+						<div class="badge badge-primary badge-lg mb-4">{x.cuisine}</div>
 					{/if}
 
 					{#if x.description}
@@ -153,7 +153,7 @@
 			<div class="flex-1">
 				<div class="flex">
 					<span class="font-bold">{x.name}</span>: {x.description}
-					<span class="ml-auto uppercase">{x.genre}</span>
+					<span class="ml-auto">{x.cuisine}</span>
 				</div>
 				<div class="flex">
 					{x.description} <span class="ml-auto">{x.gps_lat}, {x.gps_lng}</span>

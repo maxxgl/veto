@@ -37,14 +37,22 @@
 	}
 </script>
 
-<div class="mb-8">
-	<div class="text-2xl font-bold mb-2">Session</div>
-	<div class="flex items-center gap-2">
-		<div class="text-sm opacity-70">Code: {params.code}</div>
-		<button onclick={copyCode} class="btn btn-xs btn-ghost">
-			{copied ? 'Copied!' : 'Copy'}
-		</button>
+<div class="flex justify-between mb-4">
+	<div>
+		<div class="text-2xl font-bold mb-2">Session</div>
+		<div class="flex items-center gap-2">
+			<div class="text-sm opacity-70">Code: {params.code}</div>
+			<button onclick={copyCode} class="btn btn-xs btn-ghost">
+				{copied ? 'Copied!' : 'Copy'}
+			</button>
+		</div>
 	</div>
+
+	{#if isOwner}
+		<form method="POST" action="?/start">
+			<button class="btn btn-primary mt-4">Start</button>
+		</form>
+	{/if}
 </div>
 
 {#if data.currentUser && !data.isParticipant}
@@ -72,19 +80,13 @@
 {/if}
 
 {#each data.options as x (x.id)}
-	<div class="py-4">
+	<div class="py-2">
 		<div class="flex">
 			<span class="font-bold">{x.name}</span>: {x.description}
-			<span class="ml-auto uppercase">{x.genre}</span>
+			<span class="ml-auto uppercase">{x.cuisine}</span>
 		</div>
 		<div class="flex">
 			{x.description} <span class="ml-auto">{x.gps_lat}, {x.gps_lng}</span>
 		</div>
 	</div>
 {/each}
-
-{#if isOwner}
-	<form class="mt-8 mx-auto" method="POST" action="?/start">
-		<button class="btn btn-primary mt-4">Start</button>
-	</form>
-{/if}
