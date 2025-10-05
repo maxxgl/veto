@@ -6,7 +6,7 @@ export const actions = {
 	// create: async ({ locals, request }) => {
 	create: async ({ locals }) => {
 		if (!locals.user) {
-			redirect(303, '/login?action=create');
+			return redirect(303, '/login?action=create');
 		}
 		// const formData = await request.formData();
 		// const latitude = parseFloat(formData.get('latitude')?.toString() || '0');
@@ -63,7 +63,7 @@ export const actions = {
 		}
 
 		if (!locals.user) {
-			redirect(303, `/login?action=join&code=${code}`);
+			return redirect(303, `/login?action=join&code=${code}`);
 		}
 
 		const session = await db

@@ -46,41 +46,30 @@ export const actions: Actions = {
 
 		if (action === 'create') {
 			let sessionCode: string;
-			let attempts = 0;
-			const maxAttempts = 10;
 
-			while (attempts < maxAttempts) {
-				sessionCode = generateShortCode();
+			await db.transaction().execute(async (trx) => {
+				sessionCode = await generateShortCode(trx);
 
-				try {
-					await db
-						.insertInto('sessions')
-						.values({
-							code: sessionCode,
-							gps_lat: 0,
-							gps_lng: 0,
-							owner_id: user.id
-						})
-						.execute();
+				await trx
+					.insertInto('sessions')
+					.values({
+						code: sessionCode,
+						gps_lat: 0,
+						gps_lng: 0,
+						owner_id: user.id
+					})
+					.execute();
 
-					await db
-						.insertInto('session_players')
-						.values({
-							session_code: sessionCode,
-							user_id: user.id
-						})
-						.execute();
+				await trx
+					.insertInto('session_players')
+					.values({
+						session_code: sessionCode,
+						user_id: user.id
+					})
+					.execute();
+			});
 
-					redirect(303, '/' + sessionCode);
-				} catch (err) {
-					attempts++;
-					if (attempts >= maxAttempts) {
-						throw err;
-					}
-				}
-			}
-
-			error(500, 'Failed to generate unique session code');
+			redirect(303, '/' + sessionCode!);
 		} else if (action === 'join' && code) {
 			const session = await db
 				.selectFrom('sessions')
