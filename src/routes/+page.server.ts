@@ -5,9 +5,13 @@ import { db, generateShortCode, getRestaurantsFromLocation } from '$lib';
 export const actions = {
 	// create: async ({ locals, request }) => {
 	create: async ({ locals }) => {
-		if (!locals.user) {
-			return redirect(303, '/login?action=create');
+		// We add this intermediate variable because typescript throws an error
+		// for some reason if you just narrow the `locals.user` type in the tx
+		const user = locals.user;
+		if (!user) {
+			throw redirect(303, '/login?action=create');
 		}
+
 		// const formData = await request.formData();
 		// const latitude = parseFloat(formData.get('latitude')?.toString() || '0');
 		// const longitude = parseFloat(formData.get('longitude')?.toString() || '0');
@@ -23,7 +27,7 @@ export const actions = {
 					code,
 					gps_lat: latitude,
 					gps_lng: longitude,
-					owner_id: locals.user.id
+					owner_id: user.id
 				})
 				.execute();
 
@@ -31,7 +35,7 @@ export const actions = {
 				.insertInto('session_players')
 				.values({
 					session_code: code,
-					user_id: locals.user.id
+					user_id: user.id
 				})
 				.execute();
 
@@ -63,7 +67,7 @@ export const actions = {
 		}
 
 		if (!locals.user) {
-			return redirect(303, `/login?action=join&code=${code}`);
+			throw redirect(303, `/login?action=join&code=${code}`);
 		}
 
 		const session = await db

@@ -4,7 +4,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import type { PageProps } from './$types';
 
-	let { data, params, form }: PageProps = $props();
+	let { data, params }: PageProps = $props();
 	// console.log(data, form);
 
 	let pollInterval: ReturnType<typeof setInterval>;
