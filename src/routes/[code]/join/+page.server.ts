@@ -46,9 +46,14 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		.where('session_code', '=', params.code)
 		.execute();
 
+	const isOwner = (userId: number) => userId === session.owner_id;
+
 	return {
 		session,
-		participants,
+		participants: participants.map((p) => ({
+			...p,
+			isOwner: isOwner(p.id)
+		})),
 		currentUser: locals.user
 	};
 };
