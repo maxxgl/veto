@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
+	import { resolve } from '$app/paths';
 
 	let { children } = $props();
 </script>
@@ -11,13 +12,13 @@
 
 <header class="navbar bg-base-100 border-b border-base-300">
 	<div class="navbar-start">
-		<a href="/" class="text-xl font-bold">Last X Standing</a>
+		<a href={resolve('/')} class="text-xl font-bold">Last X Standing</a>
 	</div>
 	<div class="navbar-end">
 		<nav class="flex gap-4">
-			<a href="/" class="btn btn-ghost btn-sm">Home</a>
-			<a href="/login" class="btn btn-ghost btn-sm">Login</a>
-			<a href="/signup" class="btn btn-ghost btn-sm">Sign Up</a>
+			<a href={resolve('/')} class="btn btn-ghost btn-sm">Home</a>
+			<a href={resolve('/login')} class="btn btn-ghost btn-sm">Login</a>
+			<a href={resolve('/signup')} class="btn btn-ghost btn-sm">Sign Up</a>
 		</nav>
 	</div>
 </header>

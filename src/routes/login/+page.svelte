@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
+
 	// import type { ActionData } from './$types';
 	//
 	// let { form }: { form: ActionData } = $props();
@@ -38,7 +40,9 @@
 		<!-- {/if} -->
 		<button type="submit" class="btn btn-primary w-full">Login</button>
 	</form>
-	<!-- <p class="mt-4 text-center"> -->
-	<!-- 	Don't have an account? <a href="/signup" class="link" data-sveltekit-preload-data>Sign up</a> -->
-	<!-- </p> -->
+	<p class="mt-4 text-center">
+		Don't have an account? <a href={resolve('/signup')} class="link" data-sveltekit-preload-data>
+			Sign up
+		</a>
+	</p>
 </div>
