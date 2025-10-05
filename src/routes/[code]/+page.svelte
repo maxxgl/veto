@@ -86,7 +86,8 @@
 			<span class="ml-auto uppercase">{x.cuisine}</span>
 		</div>
 		<div class="flex">
-			{x.description} <span class="ml-auto">{x.gps_lat}, {x.gps_lng}</span>
+			<a href={x.website} target="_blank" rel="noopener noreferrer">{x.website}</a>
+			<span class="ml-auto">{x.gps_lat}, {x.gps_lng}</span>
 		</div>
 	</div>
 {/each}

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import RestaurantMap from '$lib/RestaurantMap.svelte';
 	import type { LayoutProps } from './$types';
 
 	let { data, children }: LayoutProps = $props();
 
-	let options = $derived($page.data.options || []);
+	let options = $derived(page.data.options || []);
 </script>
 
 {#if data.participants.length > 0}
