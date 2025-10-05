@@ -86,7 +86,10 @@
 			<span class="ml-auto uppercase">{x.cuisine}</span>
 		</div>
 		<div class="flex">
-			<a href={x.website} target="_blank" rel="noopener noreferrer">{x.website}</a>
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+			<a href={x.website} data-sveltekit-reload target="_blank" rel="noopener noreferrer">
+				{x.website}
+			</a>
 			<span class="ml-auto">{x.gps_lat}, {x.gps_lng}</span>
 		</div>
 	</div>
