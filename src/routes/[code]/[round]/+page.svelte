@@ -45,6 +45,7 @@
 	$effect(() => {
 		if (winningOption) {
 			showWinner = true;
+			clearInterval(pollInterval);
 		}
 	});
 
