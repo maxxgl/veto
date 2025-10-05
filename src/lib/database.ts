@@ -1,9 +1,8 @@
-import type { DB } from '../kysely-types'; // this is the Database interface we defined earlier
-import { NODE_ENV } from '$env/static/private';
+import type { DB } from '../kysely-types';
 import SQLite from 'better-sqlite3';
 import { Kysely, SqliteDialect } from 'kysely';
 
-const database = new SQLite(NODE_ENV === 'development' ? 'data.db' : ':memory:');
+const database = new SQLite('data.db');
 const dialect = new SqliteDialect({ database });
 export const db = new Kysely<DB>({ dialect });
 
