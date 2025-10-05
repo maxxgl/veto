@@ -1,5 +1,4 @@
 <script lang="ts">
-	const a = 'as';
 </script>
 
 <form class="mt-8 mx-auto" method="POST">

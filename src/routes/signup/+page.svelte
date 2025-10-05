@@ -38,7 +38,7 @@
 		<!-- {/if} -->
 		<button type="submit" class="btn btn-primary w-full">Sign up</button>
 	</form>
-	<p class="mt-4 text-center">
-		Already have an account? <a href="/login" class="link" data-sveltekit-preload-data>Login</a>
-	</p>
+	<!-- <p class="mt-4 text-center"> -->
+	<!-- 	Already have an account? <a href="/login" class="link" data-sveltekit-preload-data>Login</a> -->
+	<!-- </p> -->
 </div>
