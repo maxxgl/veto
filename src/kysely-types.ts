@@ -9,6 +9,12 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 
+export interface AuthSessions {
+  expires_at: number;
+  id: string;
+  user_id: number;
+}
+
 export interface Options {
   created_at: Generated<string | null>;
   description: string | null;
@@ -26,6 +32,7 @@ export interface Players {
   gps_lng: number | null;
   id: Generated<number>;
   name: string;
+  user_id: string | null;
 }
 
 export interface Rounds {
@@ -36,12 +43,24 @@ export interface Rounds {
   started_at: Generated<string | null>;
 }
 
+export interface Session {
+  expires_at: number;
+  id: string;
+  user_id: string;
+}
+
 export interface Sessions {
   created_at: Generated<string | null>;
   gps_lat: number;
   gps_lng: number;
   owner_id: number;
   uuid: string;
+}
+
+export interface User {
+  hashed_password: string;
+  id: string;
+  username: string;
 }
 
 export interface Votes {
@@ -54,9 +73,12 @@ export interface Votes {
 }
 
 export interface DB {
+  auth_sessions: AuthSessions;
   options: Options;
   players: Players;
   rounds: Rounds;
+  session: Session;
   sessions: Sessions;
+  user: User;
   votes: Votes;
 }

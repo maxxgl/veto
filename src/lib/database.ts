@@ -2,7 +2,7 @@ import type { DB } from '../kysely-types';
 import SQLite from 'better-sqlite3';
 import { Kysely, SqliteDialect } from 'kysely';
 
-const database = new SQLite('data.db');
+export const database = new SQLite('data.db');
 const dialect = new SqliteDialect({ database });
 export const db = new Kysely<DB>({ dialect });
 
@@ -11,10 +11,19 @@ database.exec(`
 
   CREATE TABLE IF NOT EXISTS players (
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      name TEXT NOT NULL,
+      username TEXT NOT NULL UNIQUE,
+      hashed_password TEXT NOT NULL,
       gps_lat REAL CHECK(gps_lat IS NULL OR (gps_lat BETWEEN -90 AND 90)),
       gps_lng REAL CHECK(gps_lng IS NULL OR (gps_lng BETWEEN -180 AND 180)),
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE SET NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS auth_sessions (
+      id TEXT PRIMARY KEY NOT NULL,
+      user_id INTEGER NOT NULL,
+      expires_at INTEGER NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
   );
 
   CREATE TABLE IF NOT EXISTS sessions (
