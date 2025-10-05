@@ -22,7 +22,7 @@ database.exec(`
       id TEXT PRIMARY KEY NOT NULL,
       user_id INTEGER NOT NULL,
       expires_at INTEGER NOT NULL,
-      FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
   );
 
   CREATE TABLE IF NOT EXISTS sessions (
