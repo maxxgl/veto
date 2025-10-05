@@ -11,6 +11,7 @@
 	let L_module: typeof L | null = null;
 
 	function updateMarkers() {
+		console.log('update');
 		if (!map || !L_module) return;
 
 		// Remove existing markers
@@ -57,39 +58,50 @@
 		});
 	}
 
-	onMount(async () => {
-		L_module = (await import('leaflet')).default;
+	onMount(() => {
+		let cleanup: (() => void) | undefined;
 
-		const validOptions = options.filter((opt) => opt.gps_lat && opt.gps_lng);
+		(async () => {
+			L_module = (await import('leaflet')).default;
 
-		if (validOptions.length === 0) return;
+			const validOptions = options.filter((opt) => opt.gps_lat && opt.gps_lng);
 
-		const centerLat =
-			validOptions.reduce((sum, opt) => sum + opt.gps_lat!, 0) / validOptions.length;
-		const centerLng =
-			validOptions.reduce((sum, opt) => sum + opt.gps_lng!, 0) / validOptions.length;
+			if (validOptions.length === 0) return;
 
-		map = L_module.map(mapContainer).setView([centerLat, centerLng], 14);
+			const centerLat =
+				validOptions.reduce((sum, opt) => sum + opt.gps_lat!, 0) / validOptions.length;
+			const centerLng =
+				validOptions.reduce((sum, opt) => sum + opt.gps_lng!, 0) / validOptions.length;
 
-		L_module.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			attribution: '© OpenStreetMap contributors'
-		}).addTo(map);
+			map = L_module.map(mapContainer).setView([centerLat, centerLng], 14);
 
-		if (validOptions.length > 1) {
-			const bounds = L_module.latLngBounds(validOptions.map((opt) => [opt.gps_lat!, opt.gps_lng!]));
-			map.fitBounds(bounds, { padding: [50, 50] });
-		}
+			L_module.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: '© OpenStreetMap contributors'
+			}).addTo(map);
 
-		// Initial marker setup
-		updateMarkers();
+			if (validOptions.length > 1) {
+				const bounds = L_module.latLngBounds(
+					validOptions.map((opt) => [opt.gps_lat!, opt.gps_lng!])
+				);
+				map.fitBounds(bounds, { padding: [50, 50] });
+			}
+
+			// Initial marker setup
+			updateMarkers();
+
+			cleanup = () => {
+				map?.remove();
+			};
+		})();
 
 		return () => {
-			map?.remove();
+			cleanup?.();
 		};
 	});
 
 	// React to changes in options
 	$effect(() => {
+		console.log('updateeffect');
 		// Only update if map is initialized
 		if (map && L_module) {
 			updateMarkers();
