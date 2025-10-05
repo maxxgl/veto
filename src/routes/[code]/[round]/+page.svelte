@@ -17,7 +17,7 @@
 			.sort((a, b) => {
 				const aRound = data.previousVotesMap[a.id]?.round ?? data.round.round;
 				const bRound = data.previousVotesMap[b.id]?.round ?? data.round.round;
-				return aRound - bRound;
+				return bRound - aRound;
 			});
 		return [...active, ...vetoed];
 	});
@@ -155,7 +155,8 @@
 			</div>
 			{#if isVetoed}
 				<span class="text-sm">
-					Vetoed by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}
+					<div>Vetoed by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</div>
+					<div class="text-center">(Round {isVetoedPrevious?.round ?? data.round.round})</div>
 				</span>
 			{:else if isWinner}
 				<button class="btn btn-success">Winner!</button>
