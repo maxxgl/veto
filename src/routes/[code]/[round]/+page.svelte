@@ -9,17 +9,15 @@
 	console.log(data, form);
 
 	const sortedOptions = $derived.by(() => {
-		const active = data.options.filter(
-			(opt) => !data.previousVotesMap[opt.id] && !data.vetoedOptions[opt.id]
-		);
-		const vetoed = data.options
-			.filter((opt) => data.previousVotesMap[opt.id] || data.vetoedOptions[opt.id])
+		const activeOrVetoedThisRound = data.options.filter((opt) => !data.previousVotesMap[opt.id]);
+		const vetoedPrevious = data.options
+			.filter((opt) => data.previousVotesMap[opt.id])
 			.sort((a, b) => {
 				const aRound = data.previousVotesMap[a.id]?.round ?? data.round.round;
 				const bRound = data.previousVotesMap[b.id]?.round ?? data.round.round;
 				return bRound - aRound;
 			});
-		return [...active, ...vetoed];
+		return [...activeOrVetoedThisRound, ...vetoedPrevious];
 	});
 
 	const winningOption = $derived.by(() => {
@@ -107,7 +105,7 @@
 		class="py-4 flex justify-between items-center gap-8 transition-all duration-500"
 		class:opacity-50={isVetoed}
 		class:winner-expanded={showWinner && isWinner}
-		animate:flip={{ duration: 400 }}
+		animate:flip={{ duration: 800 }}
 	>
 		{#if isWinner && showWinner}
 			<div class="winner-content z-20">
@@ -155,7 +153,7 @@
 			</div>
 			{#if isVetoed}
 				<span class="text-sm">
-					<div>Vetoed by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</div>
+					<div>Veto'd by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</div>
 					<div class="text-center">(Round {isVetoedPrevious?.round ?? data.round.round})</div>
 				</span>
 			{:else if isWinner}
