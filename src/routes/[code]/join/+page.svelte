@@ -33,10 +33,8 @@
 			<div class="space-y-2">
 				{#each data.participants as participant (participant.id)}
 					<div class="flex items-center gap-2 p-3 bg-base-200 rounded-lg">
-						<div class="avatar placeholder">
-							<div
-								class="bg-neutral text-neutral-content rounded-full w-8 h-8 flex items-center justify-center"
-							>
+						<div class="avatar avatar-placeholder">
+							<div class="bg-neutral text-neutral-content w-8 rounded-full">
 								<span class="text-xs">{participant.username[0].toUpperCase()}</span>
 							</div>
 						</div>
