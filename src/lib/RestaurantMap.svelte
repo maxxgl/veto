@@ -10,41 +10,10 @@
 	let markers: L.Marker[] = [];
 	let L_module: typeof L | null = null;
 
-	onMount(() => {
-		(async () => {
-			L_module = (await import('leaflet')).default;
-
-			const validOptions = options.filter((opt) => opt.gps_lat && opt.gps_lng);
-
-			if (validOptions.length === 0) return;
-
-			const centerLat =
-				validOptions.reduce((sum, opt) => sum + opt.gps_lat!, 0) / validOptions.length;
-			const centerLng =
-				validOptions.reduce((sum, opt) => sum + opt.gps_lng!, 0) / validOptions.length;
-
-			map = L_module.map(mapContainer).setView([centerLat, centerLng], 14);
-
-			L_module.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-				attribution: '© OpenStreetMap contributors'
-			}).addTo(map);
-
-			if (validOptions.length > 1) {
-				const bounds = L_module.latLngBounds(
-					validOptions.map((opt) => [opt.gps_lat!, opt.gps_lng!])
-				);
-				map.fitBounds(bounds, { padding: [50, 50] });
-			}
-		})();
-
-		return () => {
-			map?.remove();
-		};
-	});
-
-	$effect(() => {
+	function updateMarkers() {
 		if (!map || !L_module) return;
 
+		// Remove existing markers
 		markers.forEach((marker) => marker.remove());
 		markers = [];
 
@@ -86,6 +55,45 @@
 			marker.bindPopup(popupContent);
 			markers.push(marker);
 		});
+	}
+
+	onMount(async () => {
+		L_module = (await import('leaflet')).default;
+
+		const validOptions = options.filter((opt) => opt.gps_lat && opt.gps_lng);
+
+		if (validOptions.length === 0) return;
+
+		const centerLat =
+			validOptions.reduce((sum, opt) => sum + opt.gps_lat!, 0) / validOptions.length;
+		const centerLng =
+			validOptions.reduce((sum, opt) => sum + opt.gps_lng!, 0) / validOptions.length;
+
+		map = L_module.map(mapContainer).setView([centerLat, centerLng], 14);
+
+		L_module.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '© OpenStreetMap contributors'
+		}).addTo(map);
+
+		if (validOptions.length > 1) {
+			const bounds = L_module.latLngBounds(validOptions.map((opt) => [opt.gps_lat!, opt.gps_lng!]));
+			map.fitBounds(bounds, { padding: [50, 50] });
+		}
+
+		// Initial marker setup
+		updateMarkers();
+
+		return () => {
+			map?.remove();
+		};
+	});
+
+	// React to changes in options
+	$effect(() => {
+		// Only update if map is initialized
+		if (map && L_module) {
+			updateMarkers();
+		}
 	});
 </script>
 
