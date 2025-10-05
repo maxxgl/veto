@@ -1,6 +1,6 @@
 import type { Actions } from './$types';
 import { db } from '$lib';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 export const load = async ({ params }) => {
 	const round = await db
@@ -131,6 +131,8 @@ export const actions = {
 					session_uuid: params.code
 				})
 				.execute();
+
+			redirect(303, `/${params.code}/${round.round + 1}`);
 		}
 	}
 } satisfies Actions;

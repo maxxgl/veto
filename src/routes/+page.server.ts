@@ -5,16 +5,16 @@ import { randomUUID } from 'crypto';
 
 export const actions = {
 	default: async () => {
-		const owner = await db
-			.insertInto('users')
-			.values({
-				username: 'Owner',
-				hashed_password: 'asdf',
-				gps_lat: null,
-				gps_lng: null
-			})
-			.returningAll()
-			.executeTakeFirstOrThrow();
+		// const owner = await db
+		// 	.insertInto('users')
+		// 	.values({
+		// 		username: 'Owner',
+		// 		hashed_password: 'asdf',
+		// 		gps_lat: null,
+		// 		gps_lng: null
+		// 	})
+		// 	.returningAll()
+		// 	.executeTakeFirstOrThrow();
 
 		const uuid = randomUUID();
 
@@ -24,7 +24,7 @@ export const actions = {
 				uuid,
 				gps_lat: 0,
 				gps_lng: 0,
-				owner_id: owner.id
+				owner_id: 1
 			})
 			.execute();
 
