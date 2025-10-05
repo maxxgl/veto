@@ -1,9 +1,29 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { goto, invalidate } from '$app/navigation';
+	import { onMount, onDestroy } from 'svelte';
 	import type { PageProps } from './$types';
 
 	let { data, params, form }: PageProps = $props();
 	console.log(data, form);
+
+	let pollInterval: ReturnType<typeof setInterval>;
+
+	onMount(() => {
+		pollInterval = setInterval(async () => {
+			await invalidate('session:data');
+		}, 2000);
+	});
+
+	onDestroy(() => {
+		clearInterval(pollInterval);
+	});
+
+	$effect(() => {
+		if (data.currentRound) {
+			goto(resolve(`/${params.code}/${data.currentRound}`), { replaceState: true });
+		}
+	});
 </script>
 
 <div class="mb-8">
