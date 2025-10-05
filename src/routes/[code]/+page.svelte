@@ -7,6 +7,8 @@
 	let { data, params }: PageProps = $props();
 	// console.log(data, form);
 
+	let isOwner = $derived(data.currentUser?.id === data.session.owner_id);
+
 	let pollInterval: ReturnType<typeof setInterval>;
 	let copied = $state(false);
 
@@ -81,7 +83,7 @@
 	</div>
 {/each}
 
-{#if data.isOwner}
+{#if isOwner}
 	<form class="mt-8 mx-auto" method="POST" action="?/start">
 		<button class="btn btn-primary mt-4">Start</button>
 	</form>

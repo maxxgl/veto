@@ -3,16 +3,6 @@ import { db } from '$lib';
 import { error, redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
-	const session = await db
-		.selectFrom('sessions')
-		.selectAll()
-		.where('code', '=', params.code)
-		.executeTakeFirst();
-
-	if (!session) {
-		error(404, 'Session not found');
-	}
-
 	if (!locals.user) {
 		redirect(303, `/login?redirect=/${params.code}/join`);
 	}
@@ -39,21 +29,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		}
 	}
 
-	const participants = await db
-		.selectFrom('session_players')
-		.innerJoin('users', 'session_players.user_id', 'users.id')
-		.select(['users.id', 'users.username'])
-		.where('session_code', '=', params.code)
-		.execute();
-
-	const isOwner = (userId: number) => userId === session.owner_id;
-
 	return {
-		session,
-		participants: participants.map((p) => ({
-			...p,
-			isOwner: isOwner(p.id)
-		})),
 		currentUser: locals.user
 	};
 };

@@ -2,19 +2,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib';
 import { error, redirect } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ params, locals, depends }) => {
-	depends('session:data');
-
-	const data = await db
-		.selectFrom('sessions')
-		.selectAll()
-		.where('code', '=', params.code)
-		.executeTakeFirst();
-
-	if (!data) {
-		error(404);
-	}
-
+export const load: PageServerLoad = async ({ params, locals }) => {
 	const isParticipant = locals.user
 		? await db
 				.selectFrom('session_players')
@@ -36,14 +24,11 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 		.selectAll()
 		.where('session_code', '=', params.code)
 		.execute();
-	const isOwner = locals.user?.id === data.owner_id;
 
 	return {
-		data,
 		options,
 		isParticipant: !!isParticipant,
 		currentUser: locals.user,
-		isOwner,
 		currentRound: currentRound?.round
 	};
 };
