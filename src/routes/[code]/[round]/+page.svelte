@@ -6,7 +6,7 @@
 	import { enhance } from '$app/forms';
 
 	let { data, params, form }: PageProps = $props();
-	console.log(data, form);
+	// console.log(data, form);
 
 	const sortedOptions = $derived.by(() => {
 		const activeOrVetoedThisRound = data.options.filter((opt) => !data.previousVotesMap[opt.id]);

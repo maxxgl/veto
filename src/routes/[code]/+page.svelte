@@ -5,7 +5,7 @@
 	import type { PageProps } from './$types';
 
 	let { data, params, form }: PageProps = $props();
-	console.log(data, form);
+	// console.log(data, form);
 
 	let pollInterval: ReturnType<typeof setInterval>;
 	let copied = $state(false);
