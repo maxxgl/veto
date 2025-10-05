@@ -2,6 +2,8 @@
 	import type { PageProps } from './$types';
 	import { invalidate } from '$app/navigation';
 	import { onMount, onDestroy } from 'svelte';
+	import { flip } from 'svelte/animate';
+	import { enhance } from '$app/forms';
 
 	let { data, params, form }: PageProps = $props();
 	console.log(data, form);
@@ -56,7 +58,11 @@
 	{@const isVetoedThisRound = data.vetoedOptions[x.id]}
 	{@const isVetoedPrevious = data.previousVotesMap[x.id]}
 	{@const isVetoed = isVetoedThisRound || isVetoedPrevious}
-	<div class="py-4 flex justify-between items-center gap-8" class:opacity-50={isVetoed}>
+	<div
+		class="py-4 flex justify-between items-center gap-8"
+		class:opacity-50={isVetoed}
+		animate:flip={{ duration: 400 }}
+	>
 		<div class="flex-1">
 			<div class="flex">
 				<span class="font-bold">{x.name}</span>: {x.description}
@@ -74,7 +80,7 @@
 				<button class="btn btn-error btn-outline" disabled>Eliminate</button>
 			</div>
 		{:else}
-			<form method="POST">
+			<form method="POST" use:enhance>
 				<input type="hidden" name="option_id" value={x.id} />
 				<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>Eliminate</button>
 			</form>
