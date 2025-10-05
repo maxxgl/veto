@@ -4,18 +4,7 @@ import { db } from '$lib';
 import { randomUUID } from 'crypto';
 
 export const actions = {
-	default: async () => {
-		// const owner = await db
-		// 	.insertInto('users')
-		// 	.values({
-		// 		username: 'Owner',
-		// 		hashed_password: 'asdf',
-		// 		gps_lat: null,
-		// 		gps_lng: null
-		// 	})
-		// 	.returningAll()
-		// 	.executeTakeFirstOrThrow();
-
+	default: async ({ locals }) => {
 		const uuid = randomUUID();
 
 		await db
@@ -24,7 +13,15 @@ export const actions = {
 				uuid,
 				gps_lat: 0,
 				gps_lng: 0,
-				owner_id: 1
+				owner_id: locals.user!.id
+			})
+			.execute();
+
+		await db
+			.insertInto('session_players')
+			.values({
+				session_uuid: uuid,
+				user_id: locals.user!.id
 			})
 			.execute();
 
