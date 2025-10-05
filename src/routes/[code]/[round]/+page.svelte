@@ -1,8 +1,22 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
+	import { invalidate } from '$app/navigation';
+	import { onMount, onDestroy } from 'svelte';
 
 	let { data, params, form }: PageProps = $props();
 	console.log(data, form);
+
+	let pollInterval: ReturnType<typeof setInterval>;
+
+	onMount(() => {
+		pollInterval = setInterval(() => {
+			invalidate('round:data');
+		}, 2000);
+	});
+
+	onDestroy(() => {
+		clearInterval(pollInterval);
+	});
 </script>
 
 <div class="mb-8">

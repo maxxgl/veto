@@ -2,7 +2,9 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib';
 import { error, redirect } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ params, locals }) => {
+export const load: PageServerLoad = async ({ params, locals, depends }) => {
+	depends('round:data');
+
 	const round = await db
 		.selectFrom('rounds')
 		.selectAll()
@@ -53,6 +55,23 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		.select(['users.id', 'users.username'])
 		.where('session_code', '=', params.code)
 		.execute();
+
+	if (votesThisRound.length >= users.length) {
+		const nextRound = await db
+			.selectFrom('rounds')
+			.selectAll()
+			.where('session_uuid', '=', params.code)
+			.where('round', '=', Number(params.round) + 1)
+			.executeTakeFirst();
+
+		if (nextRound) {
+			redirect(303, `/${params.code}/${nextRound.round}`);
+		}
+
+		if (options.length === 1) {
+			redirect(303, `/${params.code}/win`);
+		}
+	}
 
 	const currentPlayerId = locals.user?.id;
 	const hasVoted = votesThisRound.some((v) => v.user_id === currentPlayerId);
