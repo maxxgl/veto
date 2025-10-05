@@ -10,7 +10,7 @@
 	let markers: L.Marker[] = [];
 	let L_module: typeof L | null = null;
 
-	function updateMarkers() {
+	function updateMarkers(newOptions: Restaurant[]) {
 		console.log('update');
 		if (!map || !L_module) return;
 
@@ -38,7 +38,7 @@
 			shadowSize: [41, 41]
 		});
 
-		const validOptions = options.filter((opt) => opt.gps_lat && opt.gps_lng);
+		const validOptions = newOptions.filter((opt) => opt.gps_lat && opt.gps_lng);
 
 		validOptions.forEach((option) => {
 			const marker = L_module!
@@ -87,7 +87,7 @@
 			}
 
 			// Initial marker setup
-			updateMarkers();
+			updateMarkers(options);
 
 			cleanup = () => {
 				map?.remove();
@@ -99,12 +99,9 @@
 		};
 	});
 
-	// React to changes in options
 	$effect(() => {
-		console.log('updateeffect');
-		// Only update if map is initialized
 		if (map && L_module) {
-			updateMarkers();
+			updateMarkers(options);
 		}
 	});
 </script>

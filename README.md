@@ -14,7 +14,7 @@ Where X is a Restaurant.
 - [x] Get location
 - [x] Add a map
 - [x] Add options from search
-- [ ] Display options on map
+- [x] Display options on map
 - [ ] Detailed "Start" form
 - [ ] Deploy
 - [ ]
