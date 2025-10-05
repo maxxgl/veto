@@ -39,6 +39,7 @@
 </form>
 
 {#each data.options as x (x.id)}
+	{@const isVetoed = data.vetoedOptions[x.id]}
 	<div class="py-4 flex justify-between items-center gap-8">
 		<div class="flex-1">
 			<div class="flex">
@@ -49,9 +50,16 @@
 				{x.description} <span class="ml-auto">{x.gps_lat}, {x.gps_lng}</span>
 			</div>
 		</div>
-		<form method="POST">
-			<input type="hidden" name="option_id" value={x.id} />
-			<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>Eliminate</button>
-		</form>
+		{#if isVetoed}
+			<div class="flex items-center gap-2 opacity-60">
+				<span class="text-sm">Vetoed by {isVetoed.username}</span>
+				<button class="btn btn-error btn-outline" disabled>Eliminate</button>
+			</div>
+		{:else}
+			<form method="POST">
+				<input type="hidden" name="option_id" value={x.id} />
+				<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>Eliminate</button>
+			</form>
+		{/if}
 	</div>
 {/each}

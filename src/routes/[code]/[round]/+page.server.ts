@@ -30,7 +30,7 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 		.selectFrom('votes')
 		.select('option_id')
 		.where('session_code', '=', params.code)
-		.where('round_id', '<=', Number(params.round))
+		.where('round_id', '<', Number(params.round))
 		.execute();
 
 	const votedIds = votedOptionIds.map((v) => v.option_id);
@@ -44,7 +44,7 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 	const votesThisRound = await db
 		.selectFrom('votes')
 		.innerJoin('users', 'votes.user_id', 'users.id')
-		.select(['votes.user_id', 'users.username'])
+		.select(['votes.user_id', 'users.username', 'votes.option_id'])
 		.where('session_code', '=', params.code)
 		.where('round_id', '=', Number(params.round))
 		.execute();
@@ -56,11 +56,19 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 		.where('session_code', '=', params.code)
 		.execute();
 
+	const vetoedOptions = votesThisRound.reduce(
+		(acc, vote) => {
+			acc[vote.option_id] = { username: vote.username, userId: vote.user_id };
+			return acc;
+		},
+		{} as Record<number, { username: string; userId: number }>
+	);
+
 	if (votesThisRound.length >= users.length) {
 		const nextRound = await db
 			.selectFrom('rounds')
 			.selectAll()
-			.where('session_uuid', '=', params.code)
+			.where('session_code', '=', params.code)
 			.where('round', '=', Number(params.round) + 1)
 			.executeTakeFirst();
 
@@ -82,7 +90,8 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 		isMyTurn: !hasVoted,
 		currentPlayerId,
 		votesThisRound,
-		users
+		users,
+		vetoedOptions
 	};
 };
 
@@ -119,6 +128,18 @@ export const actions = {
 
 		if (!isParticipant) {
 			error(403, 'Not a participant in this session');
+		}
+
+		const existingVote = await db
+			.selectFrom('votes')
+			.selectAll()
+			.where('session_code', '=', params.code)
+			.where('round_id', '=', round.round)
+			.where('option_id', '=', Number(optionId))
+			.executeTakeFirst();
+
+		if (existingVote) {
+			error(400, 'This option has already been vetoed');
 		}
 
 		await db
