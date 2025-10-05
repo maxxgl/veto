@@ -124,6 +124,25 @@ export const actions = {
 			.execute();
 
 		if (votesThisRound.length >= users.length) {
+			const votedOptionIds = await db
+				.selectFrom('votes')
+				.select('option_id')
+				.where('session_uuid', '=', params.code)
+				.where('round_id', '<=', round.round)
+				.execute();
+
+			const votedIds = votedOptionIds.map((v) => v.option_id);
+
+			const remainingOptions = await db
+				.selectFrom('options')
+				.selectAll()
+				.where('id', 'not in', votedIds.length > 0 ? votedIds : [-1])
+				.execute();
+
+			if (remainingOptions.length === 1) {
+				redirect(303, `/${params.code}/win`);
+			}
+
 			await db
 				.insertInto('rounds')
 				.values({
