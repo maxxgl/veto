@@ -15,7 +15,7 @@ export interface Options {
   genre: string | null;
   gps_lat: number | null;
   gps_lng: number | null;
-  id: Generated<number | null>;
+  id: Generated<number>;
   name: string;
   rating: number | null;
 }
@@ -24,7 +24,7 @@ export interface Players {
   created_at: Generated<string | null>;
   gps_lat: number | null;
   gps_lng: number | null;
-  id: Generated<number | null>;
+  id: Generated<number>;
   name: string;
 }
 
@@ -45,7 +45,7 @@ export interface Sessions {
 }
 
 export interface Votes {
-  id: Generated<number | null>;
+  id: Generated<number>;
   option_id: number;
   player_id: number;
   round_id: number;

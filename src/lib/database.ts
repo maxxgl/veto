@@ -10,7 +10,7 @@ database.exec(`
   PRAGMA foreign_keys = ON;
 
   CREATE TABLE IF NOT EXISTS players (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       name TEXT NOT NULL,
       gps_lat REAL CHECK(gps_lat IS NULL OR (gps_lat BETWEEN -90 AND 90)),
       gps_lng REAL CHECK(gps_lng IS NULL OR (gps_lng BETWEEN -180 AND 180)),
@@ -23,11 +23,11 @@ database.exec(`
       gps_lng REAL NOT NULL CHECK(gps_lng BETWEEN -180 AND 180),
       owner_id INTEGER NOT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (owner_id) REFERENCES players(id) ON DELETE SET NULL
+      FOREIGN KEY (owner_id) REFERENCES players(id) ON DELETE CASCADE
   );
 
   CREATE TABLE IF NOT EXISTS options (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       name TEXT NOT NULL,
       rating REAL CHECK(rating IS NULL OR rating >= 0 AND rating <= 5),
       gps_lat REAL CHECK(gps_lat IS NULL OR (gps_lat BETWEEN -90 AND 90)),
@@ -48,7 +48,7 @@ database.exec(`
   );
 
   CREATE TABLE IF NOT EXISTS votes (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       player_id INTEGER NOT NULL,
       option_id INTEGER NOT NULL,
       round_id INTEGER NOT NULL,
@@ -57,7 +57,7 @@ database.exec(`
       FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
       FOREIGN KEY (option_id) REFERENCES options(id) ON DELETE CASCADE,
       FOREIGN KEY (round_id, session_uuid) REFERENCES rounds(round, session_uuid) ON DELETE CASCADE,
-      UNIQUE(player_id, round_id)
+      UNIQUE(player_id, round_id, session_uuid)
   );
  
   INSERT OR IGNORE INTO players (id, name, gps_lat, gps_lng, created_at)
