@@ -23,6 +23,7 @@
 			</div>
 		</div>
 		<form method="POST">
+			<input type="hidden" name="option_id" value={x.id} />
 			<button class="btn btn-error btn-outline">Eliminate</button>
 		</form>
 	</div>
