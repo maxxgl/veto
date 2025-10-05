@@ -1,7 +1,7 @@
-interface Restaurant {
+export interface Restaurant {
 	name: string;
-	lat: number;
-	lon: number;
+	gps_lat: number;
+	gps_lng: number;
 	cuisine?: string;
 	website?: string;
 }
@@ -53,20 +53,19 @@ export async function getRestaurantsFromLocation(
 			el.type === 'node'
 				? {
 						name: el.tags!.name!,
-						lat: el.lat || 0,
-						lon: el.lon || 0,
+						gps_lat: el.lat || 0,
+						gps_lng: el.lon || 0,
 						cuisine: el.tags!.cuisine,
 						website: el.tags!.website
 					}
 				: {
 						name: el.tags!.name!,
-						lat: el.center?.lat || 0,
-						lon: el.center?.lon || 0,
+						gps_lat: el.center?.lat || 0,
+						gps_lng: el.center?.lon || 0,
 						cuisine: el.tags!.cuisine,
 						website: el.tags!.website
 					}
-		)
-		.filter((r) => r.lat && r.lon);
+		);
 
 	return restaurants;
 }

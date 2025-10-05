@@ -1,7 +1,11 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import RestaurantMap from '$lib/RestaurantMap.svelte';
 	import type { LayoutProps } from './$types';
 
 	let { data, children }: LayoutProps = $props();
+
+	let options = $derived($page.data.options || []);
 </script>
 
 {#if data.participants.length > 0}
@@ -34,6 +38,12 @@
 				</div>
 			{/each}
 		</div>
+	</div>
+{/if}
+
+{#if options.length > 0}
+	<div class="mb-6">
+		<RestaurantMap {options} />
 	</div>
 {/if}
 
