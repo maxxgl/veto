@@ -76,7 +76,26 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 			redirect(303, `/${params.code}/${nextRound.round}`);
 		}
 
-		if (options.length === 1) {
+		const votedOptionIdsIncludingThisRound = await db
+			.selectFrom('votes')
+			.select('option_id')
+			.where('session_code', '=', params.code)
+			.where('round_id', '<=', Number(params.round))
+			.execute();
+
+		const votedIdsIncludingThisRound = votedOptionIdsIncludingThisRound.map((v) => v.option_id);
+
+		const remainingOptions = await db
+			.selectFrom('options')
+			.selectAll()
+			.where(
+				'id',
+				'not in',
+				votedIdsIncludingThisRound.length > 0 ? votedIdsIncludingThisRound : [-1]
+			)
+			.execute();
+
+		if (remainingOptions.length === 1) {
 			redirect(303, `/${params.code}/win`);
 		}
 	}
