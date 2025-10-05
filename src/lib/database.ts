@@ -87,5 +87,7 @@ database.exec(`
   VALUES
       ('la belle', 4.62, 12.1456, -78.7812, 'Brunch', 'Nice place for expensive mimosas'),
       ('The Farmery', 4.38, 13.1156, -78.1812, 'Farm to Table', 'Fancy burgers and fancier fries'),
+      ('another', 4.38, 13.1156, -78.1812, 'Farm to Table', 'Fancy burgers and fancier fries'),
+      ('more', 4.38, 13.1156, -78.1812, 'Farm to Table', 'Fancy burgers and fancier fries'),
       ('Bleuu', 4.10, 12.839, -78.1102, 'Wine Bar', 'yeah i''m sure you know what this pairs with');
 `);

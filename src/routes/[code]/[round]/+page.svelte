@@ -6,6 +6,20 @@
 	let { data, params, form }: PageProps = $props();
 	console.log(data, form);
 
+	const sortedOptions = $derived.by(() => {
+		const active = data.options.filter(
+			(opt) => !data.previousVotesMap[opt.id] && !data.vetoedOptions[opt.id]
+		);
+		const vetoed = data.options
+			.filter((opt) => data.previousVotesMap[opt.id] || data.vetoedOptions[opt.id])
+			.sort((a, b) => {
+				const aRound = data.previousVotesMap[a.id]?.round ?? data.round.round;
+				const bRound = data.previousVotesMap[b.id]?.round ?? data.round.round;
+				return aRound - bRound;
+			});
+		return [...active, ...vetoed];
+	});
+
 	let pollInterval: ReturnType<typeof setInterval>;
 
 	onMount(() => {
@@ -38,9 +52,11 @@
 	<button class="btn btn-neutral mt-4">add a user</button>
 </form>
 
-{#each data.options as x (x.id)}
-	{@const isVetoed = data.vetoedOptions[x.id]}
-	<div class="py-4 flex justify-between items-center gap-8">
+{#each sortedOptions as x (x.id)}
+	{@const isVetoedThisRound = data.vetoedOptions[x.id]}
+	{@const isVetoedPrevious = data.previousVotesMap[x.id]}
+	{@const isVetoed = isVetoedThisRound || isVetoedPrevious}
+	<div class="py-4 flex justify-between items-center gap-8" class:opacity-50={isVetoed}>
 		<div class="flex-1">
 			<div class="flex">
 				<span class="font-bold">{x.name}</span>: {x.description}
@@ -51,8 +67,10 @@
 			</div>
 		</div>
 		{#if isVetoed}
-			<div class="flex items-center gap-2 opacity-60">
-				<span class="text-sm">Vetoed by {isVetoed.username}</span>
+			<div class="flex items-center gap-2">
+				<span class="text-sm"
+					>Vetoed by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</span
+				>
 				<button class="btn btn-error btn-outline" disabled>Eliminate</button>
 			</div>
 		{:else}

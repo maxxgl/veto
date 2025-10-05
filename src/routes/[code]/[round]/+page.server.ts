@@ -26,20 +26,23 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 		error(404, 'Session not found');
 	}
 
-	const votedOptionIds = await db
+	const allOptions = await db.selectFrom('options').selectAll().execute();
+
+	const previousVotes = await db
 		.selectFrom('votes')
-		.select('option_id')
+		.innerJoin('users', 'votes.user_id', 'users.id')
+		.select(['votes.option_id', 'votes.round_id', 'users.username'])
 		.where('session_code', '=', params.code)
 		.where('round_id', '<', Number(params.round))
 		.execute();
 
-	const votedIds = votedOptionIds.map((v) => v.option_id);
-
-	const options = await db
-		.selectFrom('options')
-		.selectAll()
-		.where('id', 'not in', votedIds.length > 0 ? votedIds : [-1])
-		.execute();
+	const previousVotesMap = previousVotes.reduce(
+		(acc, vote) => {
+			acc[vote.option_id] = { round: vote.round_id, username: vote.username };
+			return acc;
+		},
+		{} as Record<number, { round: number; username: string }>
+	);
 
 	const votesThisRound = await db
 		.selectFrom('votes')
@@ -104,13 +107,14 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 	const hasVoted = votesThisRound.some((v) => v.user_id === currentPlayerId);
 
 	return {
-		options,
+		options: allOptions,
 		round,
 		isMyTurn: !hasVoted,
 		currentPlayerId,
 		votesThisRound,
 		users,
-		vetoedOptions
+		vetoedOptions,
+		previousVotesMap
 	};
 };
 
