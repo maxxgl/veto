@@ -1,7 +1,8 @@
 import type { DB } from '../kysely-types';
 import SQLite from 'better-sqlite3';
-import { Kysely, SqliteDialect } from 'kysely';
+import { Kysely, SqliteDialect, Transaction } from 'kysely';
 
+export type Tx = Transaction<DB>;
 export const database = new SQLite('data.db');
 const dialect = new SqliteDialect({ database });
 export const db = new Kysely<DB>({ dialect });

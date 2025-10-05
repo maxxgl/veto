@@ -14,59 +14,45 @@ export const actions = {
 		const latitude = 35.093644;
 		const longitude = -106.5184779;
 
-		let code: string;
-		let attempts = 0;
-		const maxAttempts = 10;
+		const code = await db.transaction().execute(async (trx) => {
+			const code = await generateShortCode(trx);
+			const restaurants = await getRestaurantsFromLocation(latitude, longitude);
+			await trx
+				.insertInto('sessions')
+				.values({
+					code,
+					gps_lat: latitude,
+					gps_lng: longitude,
+					owner_id: locals.user.id
+				})
+				.execute();
 
-		while (attempts < maxAttempts) {
-			code = generateShortCode();
+			await trx
+				.insertInto('session_players')
+				.values({
+					session_code: code,
+					user_id: locals.user.id
+				})
+				.execute();
 
-			try {
-				await db
-					.insertInto('sessions')
-					.values({
-						code,
-						gps_lat: latitude,
-						gps_lng: longitude,
-						owner_id: locals.user.id
-					})
+			if (restaurants.length > 0) {
+				await trx
+					.insertInto('options')
+					.values(
+						restaurants.map((r) => ({
+							name: r.name,
+							gps_lat: r.lat,
+							gps_lng: r.lon,
+							genre: r.cuisine || null,
+							session_code: code
+						}))
+					)
 					.execute();
-
-				await db
-					.insertInto('session_players')
-					.values({
-						session_code: code,
-						user_id: locals.user.id
-					})
-					.execute();
-
-				const restaurants = await getRestaurantsFromLocation(latitude, longitude);
-
-				if (restaurants.length > 0) {
-					await db
-						.insertInto('options')
-						.values(
-							restaurants.map((r) => ({
-								name: r.name,
-								gps_lat: r.lat,
-								gps_lng: r.lon,
-								genre: r.cuisine || null,
-								session_code: code
-							}))
-						)
-						.execute();
-				}
-
-				redirect(303, '/' + code);
-			} catch (err) {
-				attempts++;
-				if (attempts >= maxAttempts) {
-					throw err;
-				}
 			}
-		}
+			return code;
+		});
 
-		error(500, 'Failed to generate unique session code');
+		redirect(303, '/' + code);
 	},
 	join: async ({ request, locals }) => {
 		const formData = await request.formData();
