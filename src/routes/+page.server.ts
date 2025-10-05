@@ -5,7 +5,7 @@ import { db, generateShortCode } from '$lib';
 export const actions = {
 	create: async ({ locals, request }) => {
 		if (!locals.user) {
-			redirect(303, '/login?redirect=/');
+			redirect(303, '/login?action=create');
 		}
 		const formData = await request.formData();
 		const latitude = parseFloat(formData.get('latitude')?.toString() || '0');
@@ -49,15 +49,15 @@ export const actions = {
 		error(500, 'Failed to generate unique session code');
 	},
 	join: async ({ request, locals }) => {
-		if (!locals.user) {
-			redirect(303, '/login?redirect=/');
-		}
-
 		const formData = await request.formData();
 		const code = formData.get('code')?.toString()?.toUpperCase();
 
 		if (!code) {
 			error(400, 'Session code is required');
+		}
+
+		if (!locals.user) {
+			redirect(303, `/login?action=join&code=${code}`);
 		}
 
 		const session = await db
