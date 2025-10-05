@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const session = await db
 		.selectFrom('sessions')
 		.selectAll()
-		.where('uuid', '=', params.code)
+		.where('code', '=', params.code)
 		.executeTakeFirst();
 
 	if (!session) {
@@ -16,7 +16,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const votedOptionIds = await db
 		.selectFrom('votes')
 		.select('option_id')
-		.where('session_uuid', '=', params.code)
+		.where('session_code', '=', params.code)
 		.execute();
 
 	const votedIds = votedOptionIds.map((v) => v.option_id);

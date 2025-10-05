@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const data = await db
 		.selectFrom('sessions')
 		.selectAll()
-		.where('uuid', '=', params.code)
+		.where('code', '=', params.code)
 		.executeTakeFirst();
 
 	if (!data) {
@@ -17,25 +17,12 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		? await db
 				.selectFrom('session_players')
 				.selectAll()
-				.where('session_uuid', '=', params.code)
+				.where('session_code', '=', params.code)
 				.where('user_id', '=', locals.user.id)
 				.executeTakeFirst()
 		: null;
 
 	const options = await db.selectFrom('options').selectAll().execute();
-	// if (!data) {
-	// 	const result = await db
-	// 		.insertInto('sessions')
-	// 		.values({
-	// 			uuid: 'b941d622-5c5f-4cc6-8e23-1d84049dc410',
-	// 			owner_id: 1,
-	// 			gps_lat: 10,
-	// 			gps_lng: 10
-	// 		})
-	// 		.execute();
-	//
-	// 	return { data: result };
-	// }
 
 	const isOwner = locals.user?.id === data.owner_id;
 
@@ -62,7 +49,7 @@ export const actions = {
 		const session = await db
 			.selectFrom('sessions')
 			.select('owner_id')
-			.where('uuid', '=', params.code)
+			.where('code', '=', params.code)
 			.executeTakeFirst();
 
 		if (!session) {
@@ -77,7 +64,7 @@ export const actions = {
 			.insertInto('rounds')
 			.values({
 				round: 1,
-				session_uuid: params.code
+				session_code: params.code
 			})
 			.returningAll()
 			.executeTakeFirstOrThrow();

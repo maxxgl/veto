@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const session = await db
 		.selectFrom('sessions')
 		.selectAll()
-		.where('uuid', '=', params.code)
+		.where('code', '=', params.code)
 		.executeTakeFirst();
 
 	if (!session) {
@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const alreadyJoined = await db
 		.selectFrom('session_players')
 		.selectAll()
-		.where('session_uuid', '=', params.code)
+		.where('session_code', '=', params.code)
 		.where('user_id', '=', locals.user.id)
 		.executeTakeFirst();
 
@@ -28,7 +28,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		const currentRound = await db
 			.selectFrom('rounds')
 			.select('round')
-			.where('session_uuid', '=', params.code)
+			.where('session_code', '=', params.code)
 			.orderBy('round', 'desc')
 			.executeTakeFirst();
 
@@ -43,7 +43,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		.selectFrom('session_players')
 		.innerJoin('users', 'session_players.user_id', 'users.id')
 		.select(['users.id', 'users.username'])
-		.where('session_uuid', '=', params.code)
+		.where('session_code', '=', params.code)
 		.execute();
 
 	return {
@@ -62,7 +62,7 @@ export const actions = {
 		const session = await db
 			.selectFrom('sessions')
 			.selectAll()
-			.where('uuid', '=', params.code)
+			.where('code', '=', params.code)
 			.executeTakeFirst();
 
 		if (!session) {
@@ -72,7 +72,7 @@ export const actions = {
 		await db
 			.insertInto('session_players')
 			.values({
-				session_uuid: params.code,
+				session_code: params.code,
 				user_id: locals.user.id
 			})
 			.execute();
@@ -80,7 +80,7 @@ export const actions = {
 		const currentRound = await db
 			.selectFrom('rounds')
 			.select('round')
-			.where('session_uuid', '=', params.code)
+			.where('session_code', '=', params.code)
 			.orderBy('round', 'desc')
 			.executeTakeFirst();
 

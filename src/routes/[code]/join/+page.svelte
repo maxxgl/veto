@@ -8,7 +8,7 @@
 <div class="max-w-2xl mx-auto">
 	<div class="mb-8">
 		<h1 class="text-3xl font-bold mb-2">Join Session</h1>
-		<div class="text-sm opacity-70">Code: {data.session.uuid}</div>
+		<div class="text-sm opacity-70">Code: {data.session.code}</div>
 	</div>
 
 	<div class="card bg-base-200 mb-8">
@@ -53,7 +53,7 @@
 			</p>
 			<div class="card-actions justify-end mt-4">
 				<a
-					href={resolve(`/${data.session.uuid}`)}
+					href={resolve(`/${data.session.code}`)}
 					class="btn btn-ghost"
 					data-sveltekit-preload-data
 				>

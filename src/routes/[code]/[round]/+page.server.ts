@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const round = await db
 		.selectFrom('rounds')
 		.selectAll()
-		.where('session_uuid', '=', params.code)
+		.where('session_code', '=', params.code)
 		.where('round', '=', Number(params.round))
 		.executeTakeFirst();
 
@@ -17,7 +17,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const session = await db
 		.selectFrom('sessions')
 		.select('owner_id')
-		.where('uuid', '=', params.code)
+		.where('code', '=', params.code)
 		.executeTakeFirst();
 
 	if (!session) {
@@ -27,7 +27,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const votedOptionIds = await db
 		.selectFrom('votes')
 		.select('option_id')
-		.where('session_uuid', '=', params.code)
+		.where('session_code', '=', params.code)
 		.where('round_id', '<=', Number(params.round))
 		.execute();
 
@@ -43,7 +43,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		.selectFrom('votes')
 		.innerJoin('users', 'votes.user_id', 'users.id')
 		.select(['votes.user_id', 'users.username'])
-		.where('session_uuid', '=', params.code)
+		.where('session_code', '=', params.code)
 		.where('round_id', '=', Number(params.round))
 		.execute();
 
@@ -51,7 +51,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		.selectFrom('session_players')
 		.innerJoin('users', 'session_players.user_id', 'users.id')
 		.select(['users.id', 'users.username'])
-		.where('session_uuid', '=', params.code)
+		.where('session_code', '=', params.code)
 		.execute();
 
 	const currentPlayerId = locals.user?.id;
@@ -79,7 +79,7 @@ export const actions = {
 		const round = await db
 			.selectFrom('rounds')
 			.selectAll()
-			.where('session_uuid', '=', params.code)
+			.where('session_code', '=', params.code)
 			.where('round', '=', Number(params.round))
 			.executeTakeFirst();
 
@@ -94,7 +94,7 @@ export const actions = {
 		const isParticipant = await db
 			.selectFrom('session_players')
 			.selectAll()
-			.where('session_uuid', '=', params.code)
+			.where('session_code', '=', params.code)
 			.where('user_id', '=', locals.user.id)
 			.executeTakeFirst();
 
@@ -108,20 +108,20 @@ export const actions = {
 				user_id: locals.user.id,
 				option_id: Number(optionId),
 				round_id: round.round,
-				session_uuid: params.code
+				session_code: params.code
 			})
 			.execute();
 
 		const users = await db
 			.selectFrom('session_players')
 			.select('user_id')
-			.where('session_uuid', '=', params.code)
+			.where('session_code', '=', params.code)
 			.execute();
 
 		const votesThisRound = await db
 			.selectFrom('votes')
 			.select('user_id')
-			.where('session_uuid', '=', params.code)
+			.where('session_code', '=', params.code)
 			.where('round_id', '=', round.round)
 			.execute();
 
@@ -129,7 +129,7 @@ export const actions = {
 			const votedOptionIds = await db
 				.selectFrom('votes')
 				.select('option_id')
-				.where('session_uuid', '=', params.code)
+				.where('session_code', '=', params.code)
 				.where('round_id', '<=', round.round)
 				.execute();
 
@@ -149,7 +149,7 @@ export const actions = {
 				.insertInto('rounds')
 				.values({
 					round: round.round + 1,
-					session_uuid: params.code
+					session_code: params.code
 				})
 				.execute();
 

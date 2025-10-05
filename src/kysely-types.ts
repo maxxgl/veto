@@ -30,22 +30,22 @@ export interface Rounds {
   created_at: Generated<string | null>;
   ended_at: string | null;
   round: number;
-  session_uuid: string;
+  session_code: string;
   started_at: Generated<string | null>;
 }
 
 export interface SessionPlayers {
   joined_at: Generated<string | null>;
-  session_uuid: string;
+  session_code: string;
   user_id: number;
 }
 
 export interface Sessions {
+  code: string;
   created_at: Generated<string | null>;
   gps_lat: number;
   gps_lng: number;
   owner_id: number;
-  uuid: string;
 }
 
 export interface Users {
@@ -61,7 +61,7 @@ export interface Votes {
   id: Generated<number>;
   option_id: number;
   round_id: number;
-  session_uuid: string;
+  session_code: string;
   user_id: number;
   voted_at: Generated<string | null>;
 }

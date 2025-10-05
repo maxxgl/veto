@@ -26,7 +26,7 @@ database.exec(`
   );
 
   CREATE TABLE IF NOT EXISTS sessions (
-      uuid TEXT UNIQUE NOT NULL PRIMARY KEY,
+      code TEXT UNIQUE NOT NULL PRIMARY KEY,
       gps_lat REAL NOT NULL CHECK(gps_lat BETWEEN -90 AND 90),
       gps_lng REAL NOT NULL CHECK(gps_lng BETWEEN -180 AND 180),
       owner_id INTEGER NOT NULL,
@@ -47,12 +47,12 @@ database.exec(`
 
   CREATE TABLE IF NOT EXISTS rounds (
       round INTEGER NOT NULL,
-      session_uuid TEXT NOT NULL,
+      session_code TEXT NOT NULL,
       started_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       ended_at DATETIME,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      PRIMARY KEY (round, session_uuid),
-      FOREIGN KEY (session_uuid) REFERENCES sessions(uuid) ON DELETE CASCADE
+      PRIMARY KEY (round, session_code),
+      FOREIGN KEY (session_code) REFERENCES sessions(code) ON DELETE CASCADE
   );
 
   CREATE TABLE IF NOT EXISTS votes (
@@ -60,20 +60,20 @@ database.exec(`
       user_id INTEGER NOT NULL,
       option_id INTEGER NOT NULL,
       round_id INTEGER NOT NULL,
-      session_uuid TEXT NOT NULL,
+      session_code TEXT NOT NULL,
       voted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
       FOREIGN KEY (option_id) REFERENCES options(id) ON DELETE CASCADE,
-      FOREIGN KEY (round_id, session_uuid) REFERENCES rounds(round, session_uuid) ON DELETE CASCADE,
-      UNIQUE(user_id, round_id, session_uuid)
+      FOREIGN KEY (round_id, session_code) REFERENCES rounds(round, session_code) ON DELETE CASCADE,
+      UNIQUE(user_id, round_id, session_code)
   );
 
   CREATE TABLE IF NOT EXISTS session_players (
-      session_uuid TEXT NOT NULL,
+      session_code TEXT NOT NULL,
       user_id INTEGER NOT NULL,
       joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      PRIMARY KEY (session_uuid, user_id),
-      FOREIGN KEY (session_uuid) REFERENCES sessions(uuid) ON DELETE CASCADE,
+      PRIMARY KEY (session_code, user_id),
+      FOREIGN KEY (session_code) REFERENCES sessions(code) ON DELETE CASCADE,
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
   );
  

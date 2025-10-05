@@ -57,7 +57,7 @@
 		</div>
 
 		<div class="mt-8 space-x-4">
-			<a href={resolve('/[code]', { code: data.session.uuid })} class="btn btn-primary"
+			<a href={resolve('/[code]', { code: data.session.code })} class="btn btn-primary"
 				>New Session</a
 			>
 		</div>
