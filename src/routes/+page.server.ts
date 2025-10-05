@@ -44,10 +44,7 @@ export const actions = {
 					.insertInto('options')
 					.values(
 						restaurants.map((r) => ({
-							name: r.name,
-							gps_lat: r.lat,
-							gps_lng: r.lon,
-							cuisine: r.cuisine || null,
+							...r,
 							session_code: code
 						}))
 					)
