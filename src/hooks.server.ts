@@ -1,4 +1,5 @@
 import type { Handle } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { db } from '$lib/database';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -23,6 +24,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 				event.locals.user = user;
 			}
 		}
+	}
+
+	const publicRoutes = ['/login', '/signup'];
+	const isPublicRoute = publicRoutes.some((route) => event.url.pathname.startsWith(route));
+
+	if (!event.locals.user && !isPublicRoute) {
+		redirect(303, '/login');
 	}
 
 	return resolve(event);
