@@ -54,9 +54,9 @@ export interface Users {
 export interface Votes {
   id: Generated<number>;
   option_id: number;
-  player_id: number;
   round_id: number;
   session_uuid: string;
+  user_id: number;
   voted_at: Generated<string | null>;
 }
 

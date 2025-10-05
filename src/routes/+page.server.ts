@@ -8,7 +8,8 @@ export const actions = {
 		const owner = await db
 			.insertInto('users')
 			.values({
-				name: 'Owner',
+				username: 'Owner',
+				hashed_password: 'asdf',
 				gps_lat: null,
 				gps_lng: null
 			})
