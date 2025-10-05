@@ -26,27 +26,12 @@ export interface Options {
   rating: number | null;
 }
 
-export interface Players {
-  created_at: Generated<string | null>;
-  gps_lat: number | null;
-  gps_lng: number | null;
-  id: Generated<number>;
-  name: string;
-  user_id: string | null;
-}
-
 export interface Rounds {
   created_at: Generated<string | null>;
   ended_at: string | null;
   round: number;
   session_uuid: string;
   started_at: Generated<string | null>;
-}
-
-export interface Session {
-  expires_at: number;
-  id: string;
-  user_id: string;
 }
 
 export interface Sessions {
@@ -57,9 +42,12 @@ export interface Sessions {
   uuid: string;
 }
 
-export interface User {
+export interface Users {
+  created_at: Generated<string | null>;
+  gps_lat: number | null;
+  gps_lng: number | null;
   hashed_password: string;
-  id: string;
+  id: Generated<number>;
   username: string;
 }
 
@@ -75,10 +63,8 @@ export interface Votes {
 export interface DB {
   auth_sessions: AuthSessions;
   options: Options;
-  players: Players;
   rounds: Rounds;
-  session: Session;
   sessions: Sessions;
-  user: User;
+  users: Users;
   votes: Votes;
 }

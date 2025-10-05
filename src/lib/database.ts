@@ -9,14 +9,13 @@ export const db = new Kysely<DB>({ dialect });
 database.exec(`
   PRAGMA foreign_keys = ON;
 
-  CREATE TABLE IF NOT EXISTS players (
+  CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       username TEXT NOT NULL UNIQUE,
       hashed_password TEXT NOT NULL,
       gps_lat REAL CHECK(gps_lat IS NULL OR (gps_lat BETWEEN -90 AND 90)),
       gps_lng REAL CHECK(gps_lng IS NULL OR (gps_lng BETWEEN -180 AND 180)),
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE SET NULL
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 
   CREATE TABLE IF NOT EXISTS auth_sessions (
@@ -32,7 +31,7 @@ database.exec(`
       gps_lng REAL NOT NULL CHECK(gps_lng BETWEEN -180 AND 180),
       owner_id INTEGER NOT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (owner_id) REFERENCES players(id) ON DELETE CASCADE
+      FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
   );
 
   CREATE TABLE IF NOT EXISTS options (
@@ -58,22 +57,22 @@ database.exec(`
 
   CREATE TABLE IF NOT EXISTS votes (
       id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-      player_id INTEGER NOT NULL,
+      user_id INTEGER NOT NULL,
       option_id INTEGER NOT NULL,
       round_id INTEGER NOT NULL,
       session_uuid TEXT NOT NULL,
       voted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
       FOREIGN KEY (option_id) REFERENCES options(id) ON DELETE CASCADE,
       FOREIGN KEY (round_id, session_uuid) REFERENCES rounds(round, session_uuid) ON DELETE CASCADE,
-      UNIQUE(player_id, round_id, session_uuid)
+      UNIQUE(user_id, round_id, session_uuid)
   );
  
-  INSERT OR IGNORE INTO players (id, name, gps_lat, gps_lng, created_at)
+  INSERT OR IGNORE INTO users (id, username, hashed_password, gps_lat, gps_lng, created_at)
   VALUES
-      (1, 'one',   12.8456, -78.7012, '2025-09-06T15:00:00.088'),
-      (2, 'two',   12.2456, -78.3012, '2025-09-06T15:00:00.088'),
-      (3, 'three', 12.8456, -78.9012, '2025-09-06T15:00:00.088');
+      (1, 'one',   'asdfadsf', 12.8456, -78.7012, '2025-09-06T15:00:00.088'),
+      (2, 'two',   'asdfadsf', 12.2456, -78.3012, '2025-09-06T15:00:00.088'),
+      (3, 'three', 'asdfadsf', 12.8456, -78.9012, '2025-09-06T15:00:00.088');
 
   INSERT OR IGNORE INTO sessions (uuid, gps_lat, gps_lng, owner_id)
   VALUES

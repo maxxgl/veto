@@ -33,7 +33,7 @@ export const load = async ({ params }) => {
 
 export const actions = {
 	addUser: async () => {
-		const result = await db.selectFrom('players').selectAll().execute();
+		const result = await db.selectFrom('users').selectAll().execute();
 
 		return result;
 	},

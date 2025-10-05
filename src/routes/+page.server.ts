@@ -6,7 +6,7 @@ import { randomUUID } from 'crypto';
 export const actions = {
 	default: async () => {
 		const owner = await db
-			.insertInto('players')
+			.insertInto('users')
 			.values({
 				name: 'Owner',
 				gps_lat: null,
