@@ -30,6 +30,7 @@
 	});
 
 	let showWinner = $state(false);
+	let showConfetti = $state(false);
 	let confettiPieces = $state(
 		Array.from({ length: 50 }, (_, i) => ({
 			id: i,
@@ -45,7 +46,11 @@
 	$effect(() => {
 		if (winningOption) {
 			showWinner = true;
+			showConfetti = true;
 			clearInterval(pollInterval);
+			setTimeout(() => {
+				showConfetti = false;
+			}, 3000);
 		}
 	});
 
@@ -85,14 +90,16 @@
 
 {#if showWinner && winningOption}
 	<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 animate-fade-in"></div>
-	<div class="absolute inset-0 pointer-events-none z-50">
-		{#each confettiPieces as piece (piece.id)}
-			<div
-				class="absolute w-2 h-2 animate-fall"
-				style="left: {piece.left}%; animation-delay: {piece.delay}s; animation-duration: {piece.duration}s; background-color: {piece.color};"
-			></div>
-		{/each}
-	</div>
+	{#if showConfetti}
+		<div class="fixed inset-0 overflow-hidden pointer-events-none z-50">
+			{#each confettiPieces as piece (piece.id)}
+				<div
+					class="absolute w-2 h-2 animate-fall"
+					style="left: {piece.left}%; animation-delay: {piece.delay}s; animation-duration: {piece.duration}s; background-color: {piece.color};"
+				></div>
+			{/each}
+		</div>
+	{/if}
 {/if}
 
 {#each sortedOptions as x (x.id)}
