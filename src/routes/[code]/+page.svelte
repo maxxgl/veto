@@ -8,6 +8,7 @@
 	console.log(data, form);
 
 	let pollInterval: ReturnType<typeof setInterval>;
+	let copied = $state(false);
 
 	onMount(() => {
 		pollInterval = setInterval(async () => {
@@ -24,11 +25,24 @@
 			goto(resolve(`/${params.code}/${data.currentRound}`), { replaceState: true });
 		}
 	});
+
+	async function copyCode() {
+		await navigator.clipboard.writeText(params.code);
+		copied = true;
+		setTimeout(() => {
+			copied = false;
+		}, 2000);
+	}
 </script>
 
 <div class="mb-8">
 	<div class="text-2xl font-bold mb-2">Session</div>
-	<div class="text-sm opacity-70">Code: {params.code}</div>
+	<div class="flex items-center gap-2">
+		<div class="text-sm opacity-70">Code: {params.code}</div>
+		<button onclick={copyCode} class="btn btn-xs btn-ghost">
+			{copied ? 'Copied!' : 'Copy'}
+		</button>
+	</div>
 </div>
 
 {#if data.currentUser && !data.isParticipant}
