@@ -1,9 +1,10 @@
 <script lang="ts">
+	import type { LayoutData } from './$types';
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { resolve } from '$app/paths';
 
-	let { children } = $props();
+	let { children, data }: { children: any; data: LayoutData } = $props();
 </script>
 
 <svelte:head>
@@ -17,8 +18,12 @@
 	<div class="navbar-end">
 		<nav class="flex gap-4">
 			<a href={resolve('/')} class="btn btn-ghost btn-sm">Home</a>
-			<a href={resolve('/login')} class="btn btn-ghost btn-sm">Login</a>
-			<a href={resolve('/signup')} class="btn btn-ghost btn-sm">Sign Up</a>
+			{#if !data.user}
+				<a href={resolve('/login')} class="btn btn-ghost btn-sm">Login</a>
+				<a href={resolve('/signup')} class="btn btn-ghost btn-sm">Sign Up</a>
+			{:else}
+				<a href={resolve('/logout')} class="btn btn-ghost btn-sm">Logout</a>
+			{/if}
 		</nav>
 	</div>
 </header>
