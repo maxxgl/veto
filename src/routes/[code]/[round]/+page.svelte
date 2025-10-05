@@ -22,6 +22,32 @@
 		return [...active, ...vetoed];
 	});
 
+	const winningOption = $derived.by(() => {
+		const active = sortedOptions.filter(
+			(opt) => !data.previousVotesMap[opt.id] && !data.vetoedOptions[opt.id]
+		);
+		return active.length === 1 ? active[0] : null;
+	});
+
+	let showWinner = $state(false);
+	let confettiPieces = $state(
+		Array.from({ length: 50 }, (_, i) => ({
+			id: i,
+			left: Math.random() * 100,
+			delay: Math.random() * 3,
+			duration: 3 + Math.random() * 2,
+			color: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#fd79a8'][
+				Math.floor(Math.random() * 6)
+			]
+		}))
+	);
+
+	$effect(() => {
+		if (winningOption) {
+			showWinner = true;
+		}
+	});
+
 	let pollInterval: ReturnType<typeof setInterval>;
 
 	onMount(() => {
@@ -35,55 +61,179 @@
 	});
 </script>
 
-<div class="mb-8">
+<div class="mb-8" class:opacity-0={showWinner} class:pointer-events-none={showWinner}>
 	<div class="text-sm opacity-70">{params.code}</div>
 	<div class="text-2xl font-bold">Round {data.round.round}</div>
 </div>
 
-{#if data.isMyTurn}
-	<div class="alert alert-info mb-4">
-		<span>It's your turn! Eliminate an option below.</span>
-	</div>
-{:else}
-	<div class="alert mb-4">
-		<span>Waiting for other players to vote...</span>
-	</div>
+{#if !showWinner}
+	{#if data.isMyTurn}
+		<div class="alert alert-info mb-4">
+			<span>It's your turn! Eliminate an option below.</span>
+		</div>
+	{:else}
+		<div class="alert mb-4">
+			<span>Waiting for other players to vote...</span>
+		</div>
+	{/if}
+
+	<form class="mb-8 mx-auto" method="POST" action="?/addUser">
+		<button class="btn btn-neutral mt-4">add a user</button>
+	</form>
 {/if}
 
-<form class="mb-8 mx-auto" method="POST" action="?/addUser">
-	<button class="btn btn-neutral mt-4">add a user</button>
-</form>
+{#if showWinner && winningOption}
+	<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 animate-fade-in"></div>
+	<div class="absolute inset-0 pointer-events-none z-50">
+		{#each confettiPieces as piece (piece.id)}
+			<div
+				class="absolute w-2 h-2 animate-fall"
+				style="left: {piece.left}%; animation-delay: {piece.delay}s; animation-duration: {piece.duration}s; background-color: {piece.color};"
+			></div>
+		{/each}
+	</div>
+{/if}
 
 {#each sortedOptions as x (x.id)}
 	{@const isVetoedThisRound = data.vetoedOptions[x.id]}
 	{@const isVetoedPrevious = data.previousVotesMap[x.id]}
 	{@const isVetoed = isVetoedThisRound || isVetoedPrevious}
+	{@const isWinner = showWinner && winningOption?.id === x.id}
 	<div
-		class="py-4 flex justify-between items-center gap-8"
+		class="py-4 flex justify-between items-center gap-8 transition-all duration-500 relative"
 		class:opacity-50={isVetoed}
+		class:winner-expanded={isWinner}
+		class:opacity-0={showWinner && !isWinner}
+		class:pointer-events-none={showWinner && !isWinner}
 		animate:flip={{ duration: 400 }}
 	>
-		<div class="flex-1">
-			<div class="flex">
-				<span class="font-bold">{x.name}</span>: {x.description}
-				<span class="ml-auto uppercase">{x.genre}</span>
-			</div>
-			<div class="flex">
-				{x.description} <span class="ml-auto">{x.gps_lat}, {x.gps_lng}</span>
-			</div>
-		</div>
-		{#if isVetoed}
-			<div class="flex items-center gap-2">
-				<span class="text-sm"
-					>Vetoed by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</span
+		{#if isWinner}
+			<div class="winner-content z-20">
+				<button
+					class="absolute top-4 right-4 btn btn-sm btn-circle"
+					onclick={() => (showWinner = false)}
 				>
-				<button class="btn btn-error btn-outline" disabled>Eliminate</button>
+					✕
+				</button>
+
+				<div class="text-center mb-8">
+					<div class="text-6xl mb-4 animate-pulse">🎉</div>
+					<h1 class="text-5xl font-bold mb-2">We Have a Winner!</h1>
+				</div>
+
+				<div class="text-center">
+					<h2 class="text-4xl font-bold mb-4">{x.name}</h2>
+
+					{#if x.rating}
+						<div class="text-2xl mb-2">⭐ {x.rating}/5</div>
+					{/if}
+
+					{#if x.genre}
+						<div class="badge badge-primary badge-lg mb-4">{x.genre}</div>
+					{/if}
+
+					{#if x.description}
+						<p class="text-lg opacity-80 mb-4">{x.description}</p>
+					{/if}
+
+					{#if x.gps_lat && x.gps_lng}
+						<div class="text-sm opacity-60">📍 {x.gps_lat}, {x.gps_lng}</div>
+					{/if}
+				</div>
 			</div>
 		{:else}
-			<form method="POST" use:enhance>
-				<input type="hidden" name="option_id" value={x.id} />
-				<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>Eliminate</button>
-			</form>
+			<div class="flex-1">
+				<div class="flex">
+					<span class="font-bold">{x.name}</span>: {x.description}
+					<span class="ml-auto uppercase">{x.genre}</span>
+				</div>
+				<div class="flex">
+					{x.description} <span class="ml-auto">{x.gps_lat}, {x.gps_lng}</span>
+				</div>
+			</div>
+			{#if isVetoed}
+				<div class="flex items-center gap-2">
+					<span class="text-sm"
+						>Vetoed by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</span
+					>
+					<button class="btn btn-error btn-outline" disabled>Eliminate</button>
+				</div>
+			{:else}
+				<form method="POST" use:enhance>
+					<input type="hidden" name="option_id" value={x.id} />
+					<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>Eliminate</button>
+				</form>
+			{/if}
 		{/if}
 	</div>
 {/each}
+
+<style>
+	.winner-expanded {
+		position: fixed !important;
+		top: 50% !important;
+		left: 50% !important;
+		transform: translate(-50%, -50%) !important;
+		width: 90vw !important;
+		max-width: 48rem !important;
+		height: auto !important;
+		min-height: 60vh !important;
+		background: hsl(var(--b2)) !important;
+		border-radius: 1rem !important;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+		padding: 2rem !important;
+		z-index: 50 !important;
+		opacity: 1 !important;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		animation: expand-winner 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+	}
+
+	.winner-content {
+		width: 100%;
+		animation: fade-in 0.5s ease-out 0.3s both;
+	}
+
+	@keyframes expand-winner {
+		0% {
+			transform: translate(-50%, -50%) scale(0.3);
+			opacity: 0;
+		}
+		50% {
+			transform: translate(-50%, -50%) scale(1.05);
+		}
+		100% {
+			transform: translate(-50%, -50%) scale(1);
+			opacity: 1;
+		}
+	}
+
+	@keyframes fade-in {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+
+	@keyframes fall {
+		0% {
+			transform: translateY(-100vh) rotate(0deg);
+			opacity: 1;
+		}
+		100% {
+			transform: translateY(100vh) rotate(720deg);
+			opacity: 0;
+		}
+	}
+
+	.animate-fall {
+		animation: fall linear infinite;
+	}
+
+	.animate-fade-in {
+		animation: fade-in 0.4s ease-out;
+	}
+</style>

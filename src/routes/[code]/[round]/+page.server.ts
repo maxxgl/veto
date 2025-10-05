@@ -55,22 +55,6 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 			.executeTakeFirst();
 
 		if (nextRound) redirect(303, `/${params.code}/${nextRound.round}`);
-
-		const remainingCount = await db
-			.selectFrom('options')
-			.select(db.fn.count('id').as('count'))
-			.where(
-				'id',
-				'not in',
-				db
-					.selectFrom('votes')
-					.select('option_id')
-					.where('session_code', '=', params.code)
-					.where('round_id', '<=', roundNum)
-			)
-			.executeTakeFirstOrThrow();
-
-		if (Number(remainingCount.count) === 1) redirect(303, `/${params.code}/win`);
 	}
 
 	const hasVoted = votesThisRound.some((v) => v.user_id === locals.user?.id);
@@ -161,14 +145,14 @@ export const actions = {
 				.where('id', 'not in', votedIds.length > 0 ? votedIds : [-1])
 				.executeTakeFirstOrThrow();
 
-			if (Number(remainingCount.count) === 1) redirect(303, `/${params.code}/win`);
+			if (Number(remainingCount.count) > 1) {
+				await db
+					.insertInto('rounds')
+					.values({ round: roundNum + 1, session_code: params.code })
+					.execute();
 
-			await db
-				.insertInto('rounds')
-				.values({ round: roundNum + 1, session_code: params.code })
-				.execute();
-
-			redirect(303, `/${params.code}/${roundNum + 1}`);
+				redirect(303, `/${params.code}/${roundNum + 1}`);
+			}
 		}
 	}
 } satisfies Actions;
