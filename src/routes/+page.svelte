@@ -4,7 +4,7 @@
 
 <div class="max-w-2xl mx-auto">
 	<div class="text-center mb-12">
-		<h1 class="text-4xl font-bold mb-4">Last X Standing</h1>
+		<h1 class="text-4xl font-bold mb-4">VETO</h1>
 		<p class="text-lg text-base-content/70">Create a new session or join an existing one</p>
 	</div>
 

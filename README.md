@@ -1,4 +1,4 @@
-# Last X Standing
+# VETO
 
 Where X is a Restaurant.
 

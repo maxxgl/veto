@@ -1,4 +1,4 @@
-# Agent Guidelines for Last X Standing
+# Agent Guidelines for VETO
 
 ## Build/Test/Lint Commands
 

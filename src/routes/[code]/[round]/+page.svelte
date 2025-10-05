@@ -81,7 +81,7 @@
 {#if !winningOption}
 	{#if data.isMyTurn}
 		<div class="alert alert-info mb-4">
-			<span>It's your turn! Eliminate an option below.</span>
+			<span>It's your turn! Veto an option below.</span>
 		</div>
 	{:else}
 		<div class="alert mb-4">
@@ -169,7 +169,7 @@
 			{:else}
 				<form method="POST" use:enhance>
 					<input type="hidden" name="option_id" value={x.id} />
-					<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>Eliminate</button>
+					<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>VETO</button>
 				</form>
 			{/if}
 		{/if}
