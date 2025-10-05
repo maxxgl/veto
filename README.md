@@ -12,8 +12,8 @@ Where X is a Restaurant.
 - [x] Voting
 - [x] Next round
 - [x] Get location
-- [ ] Add a map
-- [ ] Add options from search
+- [x] Add a map
+- [x] Add options from search
 - [ ] Display options on map
 - [ ] Detailed "Start" form
 - [ ] Deploy

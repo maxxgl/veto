@@ -4,6 +4,7 @@ export interface Restaurant {
 	gps_lng: number;
 	cuisine?: string;
 	website?: string;
+	vetoed?: boolean;
 }
 
 interface OverpassElement {

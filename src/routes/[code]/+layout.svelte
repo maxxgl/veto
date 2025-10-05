@@ -2,10 +2,16 @@
 	import { page } from '$app/state';
 	import RestaurantMap from '$lib/RestaurantMap.svelte';
 	import type { LayoutProps } from './$types';
+	import type { Options } from '$lib/../kysely-types';
 
 	let { data, children }: LayoutProps = $props();
 
-	let options = $derived(page.data.options || []);
+	let options = $derived(
+		(page.data.options || []).map((opt: Options) => ({
+			...opt,
+			vetoed: data.vetoedOptionIds?.has(Number(opt.id)) ?? false
+		}))
+	);
 </script>
 
 {#if data.participants.length > 0}
