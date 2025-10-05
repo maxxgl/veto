@@ -3,10 +3,13 @@ import { redirect, error } from '@sveltejs/kit';
 import { db, generateShortCode } from '$lib';
 
 export const actions = {
-	create: async ({ locals }) => {
+	create: async ({ locals, request }) => {
 		if (!locals.user) {
 			redirect(303, '/login?redirect=/');
 		}
+		const formData = await request.formData();
+		const latitude = parseFloat(formData.get('latitude')?.toString() || '0');
+		const longitude = parseFloat(formData.get('longitude')?.toString() || '0');
 
 		let code: string;
 		let attempts = 0;
@@ -20,8 +23,8 @@ export const actions = {
 					.insertInto('sessions')
 					.values({
 						code,
-						gps_lat: 0,
-						gps_lng: 0,
+						gps_lat: latitude,
+						gps_lng: longitude,
 						owner_id: locals.user.id
 					})
 					.execute();
