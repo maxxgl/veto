@@ -5,7 +5,10 @@
 	console.log(data, form);
 </script>
 
-<div class="mb-8">{params.code}</div>
+<div class="mb-8">
+	<div class="text-sm opacity-70">{params.code}</div>
+	<div class="text-2xl font-bold">Round {data.round.round}</div>
+</div>
 
 {#if data.isMyTurn}
 	<div class="alert alert-info mb-4">
