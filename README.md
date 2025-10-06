@@ -15,7 +15,16 @@ Where X is a Restaurant.
 - [x] Add a map
 - [x] Add options from search
 - [x] Display options on map
-- [ ] Detailed "Start" form
-- [ ] Deploy
+- [x] Deploy
 - [ ]
+
+## Bugs
+
+- [ ] Fix getRestaurantsFromLocation if logging in initially
+- [ ] Fix the "create" page
+- [ ]
+
+## Future Improvements
+
+- [ ] Detailed "Start" form
 - [ ]

@@ -146,13 +146,22 @@
 			</div>
 		{:else}
 			<div class="flex-1">
-				<div class="flex">
-					<span class="font-bold">{x.name}</span>: {x.description}
-					<span class="ml-auto">{x.cuisine}</span>
-				</div>
-				<div class="flex">
-					{x.description} <span class="ml-auto">{x.gps_lat}, {x.gps_lng}</span>
-				</div>
+				{#if x.website}
+					<!-- eslint-disable svelte/no-navigation-without-resolve -->
+					<a
+						href={x.website}
+						class="link max-w-fit"
+						data-sveltekit-reload
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{x.name}
+					</a>
+					<!-- eslint-enable svelte/no-navigation-without-resolve -->
+				{:else}
+					<div>{x.name}</div>
+				{/if}
+				<div class="ml-auto">{x.cuisine}</div>
 			</div>
 			{#if isVetoed}
 				<span class="text-sm">
