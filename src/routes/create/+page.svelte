@@ -6,6 +6,7 @@
 	let longitude = $state<number | null>(null);
 	let radius = $state(5);
 	let locationRequested = $state(false);
+	let isSubmitting = $state(false);
 
 	function requestLocation() {
 		if (navigator.geolocation) {
@@ -49,7 +50,13 @@
 					/>
 				</div>
 
-				<form method="POST" class="space-y-4">
+				<form
+					method="POST"
+					class="space-y-4"
+					onsubmit={() => {
+						isSubmitting = true;
+					}}
+				>
 					<input type="hidden" name="latitude" value={latitude ?? ''} />
 					<input type="hidden" name="longitude" value={longitude ?? ''} />
 
@@ -72,7 +79,14 @@
 						/>
 					</div>
 
-					<button type="submit" class="btn btn-primary w-full">Create Session</button>
+					<button type="submit" class="btn btn-primary w-full" disabled={isSubmitting}>
+						{#if isSubmitting}
+							<span class="loading loading-spinner"></span>
+							Creating Session...
+						{:else}
+							Create Session
+						{/if}
+					</button>
 				</form>
 			{/if}
 			<a href={resolve('/')} class="mt-4 text-center">

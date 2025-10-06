@@ -22,7 +22,7 @@ Where X is a Restaurant.
 
 - [ ] Fix getRestaurantsFromLocation if logging in initially
 - [x] Fix the "create" page
-- [ ] Create page loading indicator
+- [x] Create page loading indicator
 - [ ]
 
 ## Future Improvements
