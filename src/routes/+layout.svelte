@@ -12,7 +12,7 @@
 
 <header class="navbar bg-base-100 border-b border-base-300">
 	<div class="navbar-start">
-		<a href={resolve('/')} class="text-xl font-bold">VETO</a>
+		<a href={resolve('/')} class="btn btn-ghost btn-sm text-xl">VETO</a>
 	</div>
 	<div class="navbar-end">
 		<nav class="flex gap-4">
