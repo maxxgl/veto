@@ -26,22 +26,22 @@
 	}
 </script>
 
-<div class="flex justify-between mb-8">
-	<div class="fle items-center gap-2 mb-2">
-		<div class="text-2xl font-bold">
+<div class="flex justify-between mb-4">
+	<button class="text-left mb-2" onclick={copyCode}>
+		<div class="text-xl font-bold">
 			{#if page.route.id?.includes('[round]')}
 				Round {page.data.round?.round}
 			{:else}
-				Session
+				{data.session.name}
 			{/if}
 		</div>
 		<div class="flex items-center">
 			<div class="text-sm opacity-70">{page.params.code}</div>
-			<button onclick={copyCode} class="btn btn-xs btn-ghost">
+			<span class="btn btn-xs btn-ghost">
 				{copied ? 'Copied!' : 'Copy'}
-			</button>
+			</span>
 		</div>
-	</div>
+	</button>
 
 	{#if data.participants.length > 0}
 		<div>
