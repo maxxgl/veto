@@ -3,18 +3,19 @@
 	import type L from 'leaflet';
 	import type { Restaurant } from './getRestaurantsFromLocation';
 
-	let { options = [] }: { options: Restaurant[] } = $props();
+	let { options = [], userLocation }: { options: Restaurant[]; userLocation?: Restaurant } =
+		$props();
 
 	let mapContainer: HTMLDivElement;
 	let map: L.Map | null = null;
 	let markers: L.Marker[] = [];
+	let userMarker: L.Marker | null = null;
 	let L_module: typeof L | null = null;
 
 	function updateMarkers(newOptions: Restaurant[]) {
 		console.log('update');
 		if (!map || !L_module) return;
 
-		// Remove existing markers
 		markers.forEach((marker) => marker.remove());
 		markers = [];
 
@@ -58,6 +59,29 @@
 		});
 	}
 
+	function updateUserMarker() {
+		if (!map || !L_module || !userLocation) return;
+
+		userMarker?.remove();
+		userMarker = null;
+
+		const blueIcon = L_module.icon({
+			iconUrl:
+				'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+			shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+			iconSize: [25, 41],
+			iconAnchor: [12, 41],
+			popupAnchor: [1, -34],
+			shadowSize: [41, 41]
+		});
+
+		userMarker = L_module.marker([userLocation.gps_lat, userLocation.gps_lng], {
+			icon: blueIcon
+		}).addTo(map);
+
+		userMarker.bindPopup('<strong>Your Location</strong>');
+	}
+
 	onMount(() => {
 		let cleanup: (() => void) | undefined;
 
@@ -66,12 +90,18 @@
 
 			const validOptions = options.filter((opt) => opt.gps_lat && opt.gps_lng);
 
-			if (validOptions.length === 0) return;
+			let centerLat: number;
+			let centerLng: number;
 
-			const centerLat =
-				validOptions.reduce((sum, opt) => sum + opt.gps_lat!, 0) / validOptions.length;
-			const centerLng =
-				validOptions.reduce((sum, opt) => sum + opt.gps_lng!, 0) / validOptions.length;
+			if (userLocation) {
+				centerLat = userLocation.gps_lat;
+				centerLng = userLocation.gps_lng;
+			} else if (validOptions.length > 0) {
+				centerLat = validOptions.reduce((sum, opt) => sum + opt.gps_lat!, 0) / validOptions.length;
+				centerLng = validOptions.reduce((sum, opt) => sum + opt.gps_lng!, 0) / validOptions.length;
+			} else {
+				return;
+			}
 
 			map = L_module.map(mapContainer).setView([centerLat, centerLng], 14);
 
@@ -86,8 +116,8 @@
 				map.fitBounds(bounds, { padding: [50, 50] });
 			}
 
-			// Initial marker setup
 			updateMarkers(options);
+			updateUserMarker();
 
 			cleanup = () => {
 				map?.remove();
@@ -102,6 +132,7 @@
 	$effect(() => {
 		if (map && L_module) {
 			updateMarkers(options);
+			updateUserMarker();
 		}
 	});
 </script>

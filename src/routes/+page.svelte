@@ -1,26 +1,5 @@
 <script lang="ts">
 	let joinCode = $state('');
-	let latitude = $state<number | null>(null);
-	let longitude = $state<number | null>(null);
-	let locationRequested = $state(false);
-
-	function requestLocation() {
-		if (navigator.geolocation) {
-			locationRequested = true;
-			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					latitude = position.coords.latitude;
-					longitude = position.coords.longitude;
-				},
-				(error) => {
-					console.error('Error getting location:', error);
-					locationRequested = false;
-				}
-			);
-		}
-	}
-
-	let hasLocation = $derived(latitude !== null && longitude !== null);
 </script>
 
 <div class="max-w-2xl mx-auto">
@@ -36,17 +15,7 @@
 				<p class="text-sm text-base-content/70 mb-4">
 					Start a new session and invite others to join
 				</p>
-				{#if !hasLocation}
-					<button class="btn btn-primary w-full" onclick={requestLocation}>
-						{locationRequested ? 'Requesting Location...' : 'Allow Location Access'}
-					</button>
-				{:else}
-					<form method="POST" action="?/create">
-						<input type="hidden" name="latitude" value={latitude ?? ''} />
-						<input type="hidden" name="longitude" value={longitude ?? ''} />
-						<button class="btn btn-primary w-full">Create New Session</button>
-					</form>
-				{/if}
+				<a href="/create" class="btn btn-primary w-full">Create New Session</a>
 			</div>
 		</div>
 
