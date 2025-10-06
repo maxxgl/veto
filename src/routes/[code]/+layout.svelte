@@ -12,7 +12,33 @@
 			vetoed: data.vetoedOptionIds?.has(Number(opt.id)) ?? false
 		}))
 	);
+
+	let copied = $state(false);
+
+	async function copyCode() {
+		if (page.params.code) {
+			await navigator.clipboard.writeText(page.params.code);
+			copied = true;
+			setTimeout(() => {
+				copied = false;
+			}, 2000);
+		}
+	}
 </script>
+
+<div class="mb-8">
+	<div class="flex items-center gap-2 mb-2">
+		<div class="text-sm opacity-70">{page.params.code}</div>
+		<button onclick={copyCode} class="btn btn-xs btn-ghost">
+			{copied ? 'Copied!' : 'Copy'}
+		</button>
+	</div>
+	{#if page.route.id?.includes('[round]')}
+		<div class="text-2xl font-bold">Round {page.data.round?.round}</div>
+	{:else}
+		<div class="text-2xl font-bold">Session</div>
+	{/if}
+</div>
 
 {#if data.participants.length > 0}
 	<div class="mb-4">

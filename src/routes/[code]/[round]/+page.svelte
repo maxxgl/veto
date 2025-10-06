@@ -5,7 +5,7 @@
 	import { flip } from 'svelte/animate';
 	import { enhance } from '$app/forms';
 
-	let { data, params, form }: PageProps = $props();
+	let { data, form }: PageProps = $props();
 	// console.log(data, form);
 
 	const sortedOptions = $derived.by(() => {
@@ -64,11 +64,6 @@
 		clearInterval(pollInterval);
 	});
 </script>
-
-<div class="mb-8">
-	<div class="text-sm opacity-70">{params.code}</div>
-	<div class="text-2xl font-bold">Round {data.round.round}</div>
-</div>
 
 {#if form?.warning}
 	<div class="toast toast-top toast-center z-50">
