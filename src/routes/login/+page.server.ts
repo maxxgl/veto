@@ -1,6 +1,6 @@
-import { redirect, fail, error } from '@sveltejs/kit';
+import { redirect, fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { db, generateShortCode } from '$lib';
+import { db } from '$lib';
 
 export const actions: Actions = {
 	default: async ({ request, cookies, url }) => {
@@ -45,42 +45,8 @@ export const actions: Actions = {
 		const code = url.searchParams.get('code');
 
 		if (action === 'create') {
-			let sessionCode: string;
-
-			await db.transaction().execute(async (trx) => {
-				sessionCode = await generateShortCode(trx);
-
-				await trx
-					.insertInto('sessions')
-					.values({
-						code: sessionCode,
-						gps_lat: 0,
-						gps_lng: 0,
-						owner_id: user.id
-					})
-					.execute();
-
-				await trx
-					.insertInto('session_players')
-					.values({
-						session_code: sessionCode,
-						user_id: user.id
-					})
-					.execute();
-			});
-
-			redirect(303, '/' + sessionCode!);
+			redirect(303, '/create');
 		} else if (action === 'join' && code) {
-			const session = await db
-				.selectFrom('sessions')
-				.select('code')
-				.where('code', '=', code)
-				.executeTakeFirst();
-
-			if (!session) {
-				error(404, 'Session not found');
-			}
-
 			redirect(303, '/' + code + '/join');
 		}
 
