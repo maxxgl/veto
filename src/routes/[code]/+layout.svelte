@@ -56,7 +56,7 @@
 						>
 							<span class="text-sm">{participant.username[0].toUpperCase()}</span>
 							{#if participant.isOwner}
-								<div class="absolute -top-1 -right-1">
+								<div class="absolute -top-1 -left-1">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										class="h-4 w-4 text-warning"

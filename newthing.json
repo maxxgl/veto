@@ -1,0 +1,512 @@
+{
+	"version": 0.6,
+	"generator": "Overpass API 0.7.62.8 e802775f",
+	"osm3s": {
+		"timestamp_osm_base": "2025-10-05T18:56:20Z",
+		"copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+	},
+	"elements": [
+		{
+			"type": "node",
+			"id": 601150706,
+			"lat": 35.1094581,
+			"lon": -106.5150789,
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:country": "US",
+				"addr:housenumber": "2400",
+				"addr:postcode": "87112",
+				"addr:state": "NM",
+				"addr:street": "Juan Tabo Boulevard Northeast",
+				"amenity": "restaurant",
+				"cuisine": "sushi",
+				"name": "Mr. Sushi",
+				"toilets": "yes",
+				"toilets:access": "customers"
+			}
+		},
+		{
+			"type": "node",
+			"id": 3206501461,
+			"lat": 35.086864,
+			"lon": -106.502037,
+			"tags": {
+				"amenity": "restaurant",
+				"name": "Red Rock Deli",
+				"outdoor_seating": "no",
+				"smoking": "no",
+				"takeaway": "yes"
+			}
+		},
+		{
+			"type": "node",
+			"id": 3744889126,
+			"lat": 35.098363,
+			"lon": -106.516049,
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "1605",
+				"addr:postcode": "87112",
+				"addr:state": "NM",
+				"addr:street": "Juan Tabo Boulevard Northeast",
+				"amenity": "restaurant",
+				"cuisine": "chinese",
+				"delivery": "no",
+				"fax": "5052372474",
+				"name": "Szechwan Chinese Restaurant",
+				"opening_hours": "Mo-Th 11:00-20:30; Fr 11:00-21:30; Sa 12:00-21:30; Su 16:00-20:30",
+				"outdoor_seating": "no",
+				"phone": "5052999133",
+				"smoking": "no",
+				"takeaway": "yes",
+				"website": "www.szechwanabq.com",
+				"wheelchair": "yes"
+			}
+		},
+		{
+			"type": "node",
+			"id": 3744927425,
+			"lat": 35.098528,
+			"lon": -106.5158979,
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "1605",
+				"addr:postcode": "87112",
+				"addr:state": "NM",
+				"addr:street": "Juan Tabo Boulevard Northeast",
+				"amenity": "restaurant",
+				"cuisine": "japanese",
+				"name": "TOMI Sushi & Ramen",
+				"opening_hours": "Mo, Tu 11:00-20:30; Th 11:00-20:30; Fr 11:00-21:00; Sa 12:00-21:00; Su 12:00-20:30",
+				"website": "www.tomisushiramen.com"
+			}
+		},
+		{
+			"type": "node",
+			"id": 4664390590,
+			"lat": 35.0857393,
+			"lon": -106.5313524,
+			"tags": {
+				"addr:housenumber": "938",
+				"addr:postcode": "87112",
+				"addr:street": "Eubank Boulevard Northeast",
+				"amenity": "restaurant",
+				"cuisine": "mexican",
+				"name": "The Burrito Lady",
+				"opening_hours": "Tu-Fr 06:30-14:00",
+				"phone": "+1-505-271-2268"
+			}
+		},
+		{
+			"type": "node",
+			"id": 4666284124,
+			"lat": 35.081028,
+			"lon": -106.5146236,
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "730",
+				"addr:postcode": "87123",
+				"addr:state": "NM",
+				"addr:street": "Juan Tabo Boulevard Northeast",
+				"amenity": "restaurant",
+				"delivery": "no",
+				"name": "Weck's",
+				"opening_hours": "Mo-Su 07:00-14:00",
+				"outdoor_seating": "no",
+				"smoking": "no",
+				"takeaway": "no",
+				"website": "https://wecksinc.com"
+			}
+		},
+		{
+			"type": "node",
+			"id": 5691565678,
+			"lat": 35.0904549,
+			"lon": -106.515439,
+			"tags": { "amenity": "restaurant", "name": "Jambo Cafe" }
+		},
+		{
+			"type": "node",
+			"id": 5838020150,
+			"lat": 35.0853883,
+			"lon": -106.515467,
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "801",
+				"addr:postcode": "87123",
+				"addr:state": "NM",
+				"addr:street": "Juan Tabo Boulevard Northeast",
+				"amenity": "restaurant",
+				"cuisine": "mexican;tex-mex;american;burger;burrito;enchilada",
+				"diet:meat": "yes",
+				"name": "Stripes & Burritos Co",
+				"phone": "505.308.5194",
+				"second_hand": "yes"
+			}
+		},
+		{
+			"type": "node",
+			"id": 7768358130,
+			"lat": 35.0925591,
+			"lon": -106.5332276,
+			"tags": { "amenity": "restaurant", "cuisine": "mexican", "name": "La Salita" }
+		},
+		{
+			"type": "node",
+			"id": 7768358131,
+			"lat": 35.0927171,
+			"lon": -106.5332276,
+			"tags": { "amenity": "restaurant", "cuisine": "vietnamese", "name": "Basil Leaf" }
+		},
+		{
+			"type": "node",
+			"id": 7768358132,
+			"lat": 35.0933382,
+			"lon": -106.5333188,
+			"tags": { "amenity": "restaurant", "cuisine": "pizza", "name": "Pizza Castle" }
+		},
+		{
+			"type": "node",
+			"id": 7873531152,
+			"lat": 35.0933893,
+			"lon": -106.5324819,
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "1220",
+				"addr:state": "NM",
+				"addr:street": "Eubank Boulevard Northeast",
+				"addr:unit": "C",
+				"air_conditioning": "yes",
+				"amenity": "restaurant",
+				"cuisine": "pizza",
+				"delivery": "no",
+				"name": "Pizza Castle",
+				"outdoor_seating": "no",
+				"phone": "+1-505-292-8358",
+				"smoking": "no",
+				"takeaway": "yes",
+				"website": "https://pizza-castle.com/"
+			}
+		},
+		{
+			"type": "node",
+			"id": 8439882371,
+			"lat": 35.090083,
+			"lon": -106.5147069,
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "1020",
+				"addr:postcode": "87112",
+				"addr:state": "NM",
+				"addr:street": "Juan T.b. Boulevard Northeast",
+				"amenity": "restaurant",
+				"brand": "Pizza Hut",
+				"brand:wikidata": "Q191615",
+				"cuisine": "pizza",
+				"name": "Pizza Hut",
+				"phone": "+1 505-294-9800",
+				"website": "https://locations.pizzahut.com/nm/albuquerque/1020-juan-tb-blvd-ne"
+			}
+		},
+		{
+			"type": "node",
+			"id": 12210270901,
+			"lat": 35.1044899,
+			"lon": -106.5148034,
+			"tags": {
+				"addr:housenumber": "1950",
+				"addr:postcode": "87112",
+				"addr:street": "Juan Tabo Boulevard Northeast",
+				"amenity": "restaurant",
+				"cuisine": "mexican",
+				"name": "La Salita Restaurant",
+				"opening_hours": "Tu-Sa 11:00-20:00",
+				"phone": "(505) 299-9968",
+				"website": "https://www.lasalita.com/",
+				"website:menu": "https://www.lasalita.com/menu"
+			}
+		},
+		{
+			"type": "node",
+			"id": 12591833601,
+			"lat": 35.0896195,
+			"lon": -106.5156465,
+			"tags": {
+				"amenity": "restaurant",
+				"cuisine": "japanese",
+				"name": "Naka Sushi",
+				"self_service": "no",
+				"website": "https://www.nakasushiabq.com/"
+			}
+		},
+		{
+			"type": "way",
+			"id": 255993906,
+			"center": { "lat": 35.0866463, "lon": -106.5295506 },
+			"nodes": [
+				2616976676, 8105537022, 8105537023, 2616976677, 2616976678, 2616976679, 2616976680,
+				2616976681, 2616976682, 8105537024, 8105537027, 8105537026, 8105537025, 2616976683,
+				2616976684, 2616976676
+			],
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "10600",
+				"addr:postcode": "87112",
+				"addr:state": "NM",
+				"addr:street": "Lomas Boulevard Northeast",
+				"amenity": "restaurant",
+				"brand": "Applebee's Neighborhood Grill & Bar",
+				"brand:wikidata": "Q621532",
+				"building": "commercial",
+				"cuisine": "american",
+				"name": "Applebee's",
+				"official_name": "Applebee's Neighborhood Grill & Bar",
+				"phone": "+1 505 2379083",
+				"toilets:wheelchair": "yes",
+				"website": "https://restaurants.applebees.com/en-us/nm/albuquerque/10600-lomas-blvd-n-e-79036",
+				"website:menu": "https://www.applebees.com/en/menu?StoreNumber=79036&action=viewmenu",
+				"wheelchair": "yes"
+			}
+		},
+		{
+			"type": "way",
+			"id": 256124763,
+			"center": { "lat": 35.084957, "lon": -106.5317113 },
+			"nodes": [
+				2618204576, 2618204577, 2618204578, 2618204536, 2618204537, 2618204538, 8109916269,
+				8109916270, 8109916268, 8109916273, 8109916274, 8109916277, 8109916276, 8109916275,
+				8109916272, 8109916271, 2618204579, 8109916278, 8109916266, 8109916267, 2618204576
+			],
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "15",
+				"addr:postcode": "87123",
+				"addr:state": "NM",
+				"addr:street": "Hotel Circle Northeast",
+				"amenity": "restaurant",
+				"building": "yes",
+				"cuisine": "new_mexican",
+				"disused": "yes",
+				"name": "Sadie's of New Mexico",
+				"opening_hours": "Mo-Th 10:30-22:00, Fr 10:30-23:00, Sa 10:00-23:00, Su 10:00-22:00",
+				"outdoor_seating": "no",
+				"phone": "+1-505-296-6940",
+				"website": "https://www.sadiesofnewmexico.com/locations/east/"
+			}
+		},
+		{
+			"type": "way",
+			"id": 256124764,
+			"center": { "lat": 35.085642, "lon": -106.5320763 },
+			"nodes": [
+				2618204580, 8109916265, 8109916264, 2618204581, 8109916259, 2618204582, 2618204584,
+				2618204585, 8109916257, 8109916256, 2618204586, 2618204587, 2618204588, 2618204589,
+				2618204590, 2618204591, 2618204592, 2618204593, 2618204594, 8109916258, 2618204595,
+				2618204596, 2618204597, 2618204598, 2618204580
+			],
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "800",
+				"addr:postcode": "87123",
+				"addr:state": "NM",
+				"addr:street": "Eubank Boulevard Northeast",
+				"amenity": "restaurant",
+				"building": "yes",
+				"name": "Owl Cafe",
+				"phone": "+1 505 2914900",
+				"website": "https://owlcafealbuquerque.com/",
+				"wheelchair": "yes"
+			}
+		},
+		{
+			"type": "way",
+			"id": 318473701,
+			"center": { "lat": 35.0787795, "lon": -106.5157973 },
+			"nodes": [
+				3248806648, 8124628636, 8124628637, 3248806635, 3248806637, 8124628639, 8124628638,
+				3248806649, 8124628629, 8124628632, 8124628631, 8124628630, 3248806648
+			],
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "601",
+				"addr:postcode": "87123",
+				"addr:state": "NM",
+				"addr:street": "Juan Tabo Boulevard Northeast",
+				"amenity": "restaurant",
+				"brand": "Olive Garden",
+				"brand:wikidata": "Q3045312",
+				"building": "yes",
+				"cuisine": "italian",
+				"name": "Olive Garden",
+				"phone": "+1 505 2759948",
+				"website": "https://www.olivegarden.com/locations/nm/albuquerque/albuquerque-juan-tabo-blvd/1121"
+			}
+		},
+		{
+			"type": "way",
+			"id": 438688491,
+			"center": { "lat": 35.0852183, "lon": -106.5146536 },
+			"nodes": [1994898909, 4363839664, 4363839662, 4363839661, 1994898909],
+			"tags": {
+				"amenity": "restaurant",
+				"brand": "Village Inn",
+				"brand:wikidata": "Q7930659",
+				"building": "yes",
+				"cuisine": "american",
+				"name": "Village Inn",
+				"outdoor_seating": "no",
+				"smoking": "no"
+			}
+		},
+		{
+			"type": "way",
+			"id": 472420067,
+			"center": { "lat": 35.0959879, "lon": -106.5156906 },
+			"nodes": [
+				4666303086, 8119596677, 8119596679, 8119596678, 8119596676, 4666303087, 4666303088,
+				8119596668, 8119596670, 8119596671, 8119596669, 4666303689, 8119596672, 8119596675,
+				8119596674, 8119596673, 4666303086
+			],
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "1405",
+				"addr:postcode": "87112",
+				"addr:state": "NM",
+				"addr:street": "Juan Tabo Boulevard Northeast",
+				"amenity": "restaurant",
+				"building": "yes",
+				"cuisine": "vietnamese",
+				"delivery": "no",
+				"diet:vegetarian": "yes",
+				"name": "An Hy Quan",
+				"opening_hours": "Tu-Sa 11:00-21:00; Su 11:00-20:00",
+				"outdoor_seating": "no",
+				"smoking": "no",
+				"takeaway": "yes"
+			}
+		},
+		{
+			"type": "way",
+			"id": 472420068,
+			"center": { "lat": 35.0966569, "lon": -106.5157162 },
+			"nodes": [
+				4666303690, 4666303691, 4666303692, 4666303693, 4666303694, 4666303695, 8119560004,
+				8119560007, 4666303696, 4666303697, 8119560003, 8119560002, 4666303690
+			],
+			"tags": {
+				"amenity": "restaurant",
+				"building": "yes",
+				"delivery": "no",
+				"name": "Teriyaki Chicken Bowl",
+				"outdoor_seating": "yes",
+				"smoking": "no",
+				"takeaway": "no"
+			}
+		},
+		{
+			"type": "way",
+			"id": 508335581,
+			"center": { "lat": 35.091881, "lon": -106.5148162 },
+			"nodes": [
+				4976625062, 4976625063, 8129729871, 8129729872, 8129729873, 8129729870, 4976625064,
+				8129729874, 8129729876, 8129729877, 8129729875, 8129729878, 4976625065, 8129729869,
+				4976625062
+			],
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "1140",
+				"addr:postcode": "87112",
+				"addr:state": "NM",
+				"addr:street": "Juan Tabo Blvd NE",
+				"amenity": "restaurant",
+				"building": "yes",
+				"cuisine": "regional;new_mexican",
+				"delivery": "no",
+				"name": "Perea's New Mexican Restaurant",
+				"opening_hours": "Mo-Su 08:00-14:00",
+				"outdoor_seating": "yes",
+				"smoking": "outside"
+			}
+		},
+		{
+			"type": "way",
+			"id": 516226761,
+			"center": { "lat": 35.1091498, "lon": -106.5158865 },
+			"nodes": [5039781864, 5039781865, 5039781866, 5039781867, 12689487476, 5039781864],
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "11261",
+				"addr:postcode": "87112",
+				"addr:state": "NM",
+				"addr:street": "Menaul Boulevard Northeast",
+				"amenity": "restaurant",
+				"brand": "Denny's",
+				"brand:wikidata": "Q1189695",
+				"building": "yes",
+				"cuisine": "american",
+				"name": "Denny's",
+				"opening_hours": "24/7",
+				"outdoor_seating": "no",
+				"phone": "+1-505-292-8964",
+				"toilets": "yes",
+				"toilets:access": "customers",
+				"website": "https://locations.dennys.com/NM/ALBUQUERQUE/246214"
+			}
+		},
+		{
+			"type": "way",
+			"id": 738908596,
+			"center": { "lat": 35.0946735, "lon": -106.5323344 },
+			"nodes": [6918652931, 6918652930, 6918652929, 6918652928, 6918652931],
+			"tags": {
+				"amenity": "restaurant",
+				"building": "yes",
+				"cuisine": "mexican",
+				"name": "Filiberto's"
+			}
+		},
+		{
+			"type": "way",
+			"id": 868874478,
+			"center": { "lat": 35.1056903, "lon": -106.5326711 },
+			"nodes": [
+				8098698155, 8098698156, 8098698157, 8098698158, 8098698159, 8098698160, 8098698161,
+				8098698162, 8098698155
+			],
+			"tags": {
+				"addr:city": "Albuquerque",
+				"addr:housenumber": "2100",
+				"addr:postcode": "87112",
+				"addr:state": "NM",
+				"addr:street": "Eubank Boulevard Northeast",
+				"amenity": "restaurant",
+				"brand": "Gyro Shack",
+				"building": "yes",
+				"building:levels": "1",
+				"cuisine": "greek",
+				"diet:vegan": "yes",
+				"diet:vegetarian": "yes",
+				"name": "Gyro Shack",
+				"outdoor_seating": "no",
+				"payment:apple_pay": "yes",
+				"payment:credit_cards": "yes",
+				"reservation": "no",
+				"smoking": "no",
+				"takeaway": "yes",
+				"toilets": "yes",
+				"website": "https://www.gyroshack.com/",
+				"website:menu": "https://www.gyroshack.com/our-menu/"
+			}
+		},
+		{
+			"type": "way",
+			"id": 871863288,
+			"center": { "lat": 35.0908317, "lon": -106.5156511 },
+			"nodes": [
+				8120765489, 8120765490, 8120765491, 8120765492, 8120765493, 8120765494, 8120765495,
+				8120765496, 8120765497, 8120765498, 8120765499, 8120765500, 8120765489
+			],
+			"tags": { "amenity": "restaurant", "building": "yes" }
+		}
+	]
+}
