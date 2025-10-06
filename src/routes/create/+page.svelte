@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import RestaurantMap from '$lib/RestaurantMap.svelte';
 	import type { ActionData } from './$types';
 
@@ -70,27 +71,18 @@
 							class="input input-bordered w-full"
 							required
 						/>
-						<label class="label">
-							<span class="label-text-alt text-base-content/60">
-								Restaurants within {radius}
-								{radius === 1 ? 'mile' : 'miles'} will be included
-							</span>
-						</label>
+						<span class="label-text-alt text-base-content/60">
+							Restaurants within {radius}
+							{radius === 1 ? 'mile' : 'miles'} will be included
+						</span>
 					</div>
-
-					{#if form?.error}
-						<div class="alert alert-error">
-							<span>{form.error}</span>
-						</div>
-					{/if}
 
 					<button type="submit" class="btn btn-primary w-full">Create Session</button>
 				</form>
 			{/if}
+			<a href={resolve('/')} class="mt-4 text-center">
+				<button class="btn btn-soft btn-error w-full">Cancel</button>
+			</a>
 		</div>
-	</div>
-
-	<div class="text-center mt-4">
-		<a href="/" class="link link-hover">Back to home</a>
 	</div>
 </div>

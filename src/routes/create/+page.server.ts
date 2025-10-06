@@ -25,6 +25,7 @@ export const actions = {
 					code,
 					gps_lat: latitude,
 					gps_lng: longitude,
+					radiusMiles: radiusMiles,
 					owner_id: user.id
 				})
 				.execute();
