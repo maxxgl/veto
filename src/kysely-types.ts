@@ -49,6 +49,7 @@ export interface Sessions {
   gps_lat: number;
   gps_lng: number;
   owner_id: number;
+  radiusMiles: number;
 }
 
 export interface Users {

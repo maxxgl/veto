@@ -31,6 +31,7 @@ database.exec(`
       gps_lat REAL NOT NULL CHECK(gps_lat BETWEEN -90 AND 90),
       gps_lng REAL NOT NULL CHECK(gps_lng BETWEEN -180 AND 180),
       owner_id INTEGER NOT NULL,
+      radiusMiles INTEGER NOT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
   );
@@ -88,9 +89,9 @@ database.exec(`
       (2, 'two',   'dev-token-2', 12.2456, -78.3012, '2025-09-06T15:00:00.088'),
       (3, 'three', 'dev-token-3', 12.8456, -78.9012, '2025-09-06T15:00:00.088');
 
-  INSERT OR IGNORE INTO sessions (code, gps_lat, gps_lng, owner_id, created_at)
+  INSERT OR IGNORE INTO sessions (code, gps_lat, gps_lng, owner_id, created_at, radiusMiles)
   VALUES
-      ('DEMO', 12.8456, -78.7012, 1, '2025-09-06T15:00:00.088');
+      ('DEMO', 12.8456, -78.7012, 1, '2025-09-06T15:00:00.088', 5);
 
   INSERT OR IGNORE INTO options (name, rating, gps_lat, gps_lng, cuisine, description, session_code)
   VALUES
