@@ -45,6 +45,7 @@ database.exec(`
       cuisine TEXT,
       website TEXT,
       description TEXT,
+      drivingTimeMinutes INTEGER,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (session_code) REFERENCES sessions(code) ON DELETE CASCADE
   );

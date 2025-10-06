@@ -19,6 +19,7 @@ export interface Options {
   created_at: Generated<string | null>;
   cuisine: string | null;
   description: string | null;
+  drivingTimeMinutes: number | null;
   gps_lat: number | null;
   gps_lng: number | null;
   id: Generated<number>;

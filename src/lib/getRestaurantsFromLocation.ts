@@ -5,6 +5,7 @@ export interface Restaurant {
 	cuisine?: string;
 	website?: string;
 	vetoed?: boolean;
+	drivingTimeMinutes?: number;
 }
 
 interface OverpassElement {
@@ -22,6 +23,31 @@ interface OverpassWay extends OverpassElement {
 
 interface OverpassResponse {
 	elements: Array<OverpassNode | OverpassWay>;
+}
+
+interface OSRMRoute {
+	duration: number;
+}
+
+interface OSRMResponse {
+	routes: OSRMRoute[];
+}
+
+async function getDrivingTime(
+	fromLat: number,
+	fromLng: number,
+	toLat: number,
+	toLng: number
+): Promise<number | undefined> {
+	try {
+		const url = `https://router.project-osrm.org/route/v1/driving/${fromLng},${fromLat};${toLng},${toLat}?overview=false`;
+		const response = await fetch(url);
+		if (!response.ok) return undefined;
+		const data = (await response.json()) as OSRMResponse;
+		return Math.round(data.routes[0].duration / 60);
+	} catch {
+		return undefined;
+	}
 }
 
 export async function getRestaurantsFromLocation(
@@ -68,5 +94,17 @@ export async function getRestaurantsFromLocation(
 					}
 		);
 
-	return restaurants;
+	const restaurantsWithDrivingTime = await Promise.all(
+		restaurants.map(async (restaurant) => ({
+			...restaurant,
+			drivingTimeMinutes: await getDrivingTime(
+				latitude,
+				longitude,
+				restaurant.gps_lat,
+				restaurant.gps_lng
+			)
+		}))
+	);
+
+	return restaurantsWithDrivingTime;
 }
