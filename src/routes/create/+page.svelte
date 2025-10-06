@@ -4,7 +4,7 @@
 
 	let latitude = $state<number | null>(null);
 	let longitude = $state<number | null>(null);
-	let radius = $state(2);
+	let radius = $state(5);
 	let locationRequested = $state(false);
 
 	function requestLocation() {
@@ -55,23 +55,21 @@
 
 					<div class="form-control">
 						<label class="label" for="radius">
-							<span class="label-text">Search Radius (miles)</span>
+							<span class="label-text"
+								>Search Radius: {radius} {radius === 1 ? 'mile' : 'miles'}</span
+							>
 						</label>
 						<input
-							type="number"
+							type="range"
 							id="radius"
 							name="radius"
 							bind:value={radius}
-							min="0.5"
-							max="25"
-							step="0.5"
-							class="input input-bordered w-full"
+							min="1"
+							max="30"
+							step="1"
+							class="range range-primary"
 							required
 						/>
-						<span class="label-text-alt text-base-content/60">
-							Restaurants within {radius}
-							{radius === 1 ? 'mile' : 'miles'} will be included
-						</span>
 					</div>
 
 					<button type="submit" class="btn btn-primary w-full">Create Session</button>
