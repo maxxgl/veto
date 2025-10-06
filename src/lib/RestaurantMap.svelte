@@ -17,7 +17,6 @@
 	let L_module: typeof L | null = null;
 
 	function updateMarkers(newOptions: Restaurant[]) {
-		console.log('update');
 		if (!map || !L_module) return;
 
 		markers.forEach((marker) => marker.remove());
@@ -122,7 +121,7 @@
 				return;
 			}
 
-			map = L_module.map(mapContainer).setView([centerLat, centerLng], 14);
+			map = L_module.map(mapContainer).setView([centerLat, centerLng], 13);
 
 			L_module.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				attribution: '© OpenStreetMap contributors'
