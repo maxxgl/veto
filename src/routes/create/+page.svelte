@@ -47,6 +47,7 @@
 					<RestaurantMap
 						options={[]}
 						userLocation={{ name: 'Your Location', gps_lat: latitude!, gps_lng: longitude! }}
+						radiusMiles={radius}
 					/>
 				</div>
 

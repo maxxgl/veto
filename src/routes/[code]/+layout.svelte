@@ -86,6 +86,7 @@
 				gps_lat: data.session.gps_lat,
 				gps_lng: data.session.gps_lng
 			}}
+			radiusMiles={data.session.radiusMiles}
 		/>
 	</div>
 {/if}

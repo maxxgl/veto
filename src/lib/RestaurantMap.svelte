@@ -3,13 +3,17 @@
 	import type L from 'leaflet';
 	import type { Restaurant } from './getRestaurantsFromLocation';
 
-	let { options = [], userLocation }: { options: Restaurant[]; userLocation?: Restaurant } =
-		$props();
+	let {
+		options = [],
+		userLocation,
+		radiusMiles
+	}: { options: Restaurant[]; userLocation?: Restaurant; radiusMiles?: number } = $props();
 
 	let mapContainer: HTMLDivElement;
 	let map: L.Map | null = null;
 	let markers: L.Marker[] = [];
 	let userMarker: L.Marker | null = null;
+	let radiusCircle: L.Circle | null = null;
 	let L_module: typeof L | null = null;
 
 	function updateMarkers(newOptions: Restaurant[]) {
@@ -82,6 +86,23 @@
 		userMarker.bindPopup('<strong>Your Location</strong>');
 	}
 
+	function updateRadiusCircle() {
+		if (!map || !L_module || !userLocation || !radiusMiles) return;
+
+		radiusCircle?.remove();
+		radiusCircle = null;
+
+		const radiusMeters = radiusMiles * 1609.34;
+
+		radiusCircle = L_module.circle([userLocation.gps_lat, userLocation.gps_lng], {
+			radius: radiusMeters,
+			color: '#3b82f6',
+			fillColor: '#3b82f6',
+			fillOpacity: 0.1,
+			weight: 2
+		}).addTo(map);
+	}
+
 	onMount(() => {
 		let cleanup: (() => void) | undefined;
 
@@ -118,6 +139,7 @@
 
 			updateMarkers(options);
 			updateUserMarker();
+			updateRadiusCircle();
 
 			cleanup = () => {
 				map?.remove();
@@ -133,6 +155,7 @@
 		if (map && L_module) {
 			updateMarkers(options);
 			updateUserMarker();
+			updateRadiusCircle();
 		}
 	});
 </script>
