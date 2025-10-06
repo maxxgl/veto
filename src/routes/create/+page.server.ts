@@ -12,9 +12,7 @@ export const actions = {
 		const formData = await request.formData();
 		const latitude = parseFloat(formData.get('latitude')?.toString() || '0');
 		const longitude = parseFloat(formData.get('longitude')?.toString() || '0');
-		const radiusMiles = parseFloat(formData.get('radius')?.toString() || '2');
-
-		const radiusMeters = radiusMiles * 1609.34;
+		const radiusMeters = parseFloat(formData.get('radius')?.toString() || '1000');
 
 		const code = await db.transaction().execute(async (trx) => {
 			const code = await generateShortCode(trx);
@@ -25,7 +23,7 @@ export const actions = {
 					code,
 					gps_lat: latitude,
 					gps_lng: longitude,
-					radiusMiles: radiusMiles,
+					radiusMeters: radiusMeters,
 					owner_id: user.id
 				})
 				.execute();

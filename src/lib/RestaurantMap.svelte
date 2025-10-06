@@ -6,8 +6,8 @@
 	let {
 		options = [],
 		userLocation,
-		radiusMiles
-	}: { options: Restaurant[]; userLocation?: Restaurant; radiusMiles?: number } = $props();
+		radiusMeters
+	}: { options: Restaurant[]; userLocation?: Restaurant; radiusMeters?: number } = $props();
 
 	let mapContainer: HTMLDivElement;
 	let map: L.Map | null = null;
@@ -86,16 +86,14 @@
 		userMarker.bindPopup('<strong>Your Location</strong>');
 	}
 
-	function updateRadiusCircle() {
-		if (!map || !L_module || !userLocation || !radiusMiles) return;
+	function updateRadiusCircle(newRadius: number | undefined) {
+		if (!map || !L_module || !userLocation || !newRadius) return;
 
 		radiusCircle?.remove();
 		radiusCircle = null;
 
-		const radiusMeters = radiusMiles * 1609.34;
-
 		radiusCircle = L_module.circle([userLocation.gps_lat, userLocation.gps_lng], {
-			radius: radiusMeters,
+			radius: newRadius,
 			color: '#3b82f6',
 			fillColor: '#3b82f6',
 			fillOpacity: 0.1,
@@ -139,7 +137,7 @@
 
 			updateMarkers(options);
 			updateUserMarker();
-			updateRadiusCircle();
+			updateRadiusCircle(radiusMeters);
 
 			cleanup = () => {
 				map?.remove();
@@ -154,8 +152,13 @@
 	$effect(() => {
 		if (map && L_module) {
 			updateMarkers(options);
-			updateUserMarker();
-			updateRadiusCircle();
+		}
+	});
+
+	$effect(() => {
+		console.log(radiusMeters);
+		if (map && L_module) {
+			updateRadiusCircle(radiusMeters);
 		}
 	});
 </script>

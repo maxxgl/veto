@@ -4,7 +4,7 @@
 
 	let latitude = $state<number | null>(null);
 	let longitude = $state<number | null>(null);
-	let radius = $state(5);
+	let radius = $state(2000);
 	let locationRequested = $state(false);
 	let isSubmitting = $state(false);
 
@@ -47,7 +47,7 @@
 					<RestaurantMap
 						options={[]}
 						userLocation={{ name: 'Your Location', gps_lat: latitude!, gps_lng: longitude! }}
-						radiusMiles={radius}
+						radiusMeters={radius}
 					/>
 				</div>
 
@@ -63,17 +63,15 @@
 
 					<div class="form-control">
 						<label class="label" for="radius">
-							<span class="label-text"
-								>Search Radius: {radius} {radius === 1 ? 'mile' : 'miles'}</span
-							>
+							<span class="label-text">Search Radius: {radius} Meters</span>
 						</label>
 						<input
 							type="range"
 							id="radius"
 							name="radius"
 							bind:value={radius}
-							min="1"
-							max="30"
+							min="100"
+							max="30000"
 							step="1"
 							class="range range-primary"
 							required
