@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"codegen": "DATABASE_URL=data.db kysely-codegen --out-file src/kysely-types.ts",
+		"codegen": "DATABASE_URL=data/data.db kysely-codegen --out-file src/kysely-types.ts",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
