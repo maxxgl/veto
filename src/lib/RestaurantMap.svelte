@@ -149,6 +149,7 @@
 	});
 
 	$effect(() => {
+		console.log(options);
 		if (map && L_module) {
 			updateMarkers(options);
 		}
