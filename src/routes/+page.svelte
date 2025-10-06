@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
+
 	let joinCode = $state('');
 </script>
 
@@ -15,7 +17,7 @@
 				<p class="text-sm text-base-content/70 mb-4">
 					Start a new session and invite others to join
 				</p>
-				<a href="/create" class="btn btn-primary w-full">Create New Session</a>
+				<a href={resolve('/create')} class="btn btn-primary w-full">Create New Session</a>
 			</div>
 		</div>
 

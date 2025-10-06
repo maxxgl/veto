@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import RestaurantMap from '$lib/RestaurantMap.svelte';
-	import type { ActionData } from './$types';
-
-	let { form }: { form: ActionData } = $props();
 
 	let latitude = $state<number | null>(null);
 	let longitude = $state<number | null>(null);
