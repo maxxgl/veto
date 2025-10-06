@@ -69,10 +69,10 @@
 			iconUrl:
 				'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
 			shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-			iconSize: [25, 41],
-			iconAnchor: [12, 41],
+			iconSize: [15, 25],
+			iconAnchor: [7, 25],
 			popupAnchor: [1, -34],
-			shadowSize: [41, 41]
+			shadowSize: [25, 25]
 		});
 
 		userMarker = L_module.marker([userLocation.gps_lat, userLocation.gps_lng], {

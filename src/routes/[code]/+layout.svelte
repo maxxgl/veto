@@ -79,7 +79,14 @@
 
 {#if options.length > 0}
 	<div class="mb-6">
-		<RestaurantMap {options} />
+		<RestaurantMap
+			{options}
+			userLocation={{
+				name: 'Your Location',
+				gps_lat: data.session.gps_lat,
+				gps_lng: data.session.gps_lng
+			}}
+		/>
 	</div>
 {/if}
 
