@@ -28,6 +28,7 @@ database.exec(`
 
   CREATE TABLE IF NOT EXISTS sessions (
       code TEXT UNIQUE NOT NULL PRIMARY KEY,
+      name TEXT NOT NULL,
       gps_lat REAL NOT NULL CHECK(gps_lat BETWEEN -90 AND 90),
       gps_lng REAL NOT NULL CHECK(gps_lng BETWEEN -180 AND 180),
       owner_id INTEGER NOT NULL,
@@ -89,9 +90,9 @@ database.exec(`
       (2, 'two',   'dev-token-2', 12.2456, -78.3012, '2025-09-06T15:00:00.088'),
       (3, 'three', 'dev-token-3', 12.8456, -78.9012, '2025-09-06T15:00:00.088');
 
-  INSERT OR IGNORE INTO sessions (code, gps_lat, gps_lng, owner_id, created_at, radiusMeters)
+  INSERT OR IGNORE INTO sessions (name, code, gps_lat, gps_lng, owner_id, created_at, radiusMeters)
   VALUES
-      ('DEMO', 12.8456, -78.7012, 1, '2025-09-06T15:00:00.088', 500);
+      ('Testing', 'DEMO', 12.8456, -78.7012, 1, '2025-09-06T15:00:00.088', 500);
 
   INSERT OR IGNORE INTO options (name, rating, gps_lat, gps_lng, cuisine, description, session_code)
   VALUES

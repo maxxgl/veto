@@ -2,6 +2,7 @@
 	import { resolve } from '$app/paths';
 	import RestaurantMap from '$lib/RestaurantMap.svelte';
 
+	let name = $state<string>('');
 	let latitude = $state<number | null>(null);
 	let longitude = $state<number | null>(null);
 	let radius = $state(2000);
@@ -43,14 +44,6 @@
 					</button>
 				</div>
 			{:else}
-				<div class="mb-4">
-					<RestaurantMap
-						options={[]}
-						userLocation={{ name: 'Your Location', gps_lat: latitude!, gps_lng: longitude! }}
-						radiusMeters={radius}
-					/>
-				</div>
-
 				<form
 					method="POST"
 					class="space-y-4"
@@ -58,6 +51,24 @@
 						isSubmitting = true;
 					}}
 				>
+					<fieldset class="fieldset">
+						<legend class="fieldset-legend">Session Name</legend>
+						<input
+							type="text"
+							name="name"
+							value={name}
+							class="input w-full"
+							placeholder="Session Name"
+						/>
+						<p class="label">What are you voting on?</p>
+					</fieldset>
+					<div class="mb-4">
+						<RestaurantMap
+							options={[]}
+							userLocation={{ name: 'Your Location', gps_lat: latitude!, gps_lng: longitude! }}
+							radiusMeters={radius}
+						/>
+					</div>
 					<input type="hidden" name="latitude" value={latitude ?? ''} />
 					<input type="hidden" name="longitude" value={longitude ?? ''} />
 

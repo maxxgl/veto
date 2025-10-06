@@ -10,6 +10,7 @@ export const actions = {
 		}
 
 		const formData = await request.formData();
+		const name = formData.get('name')?.toString() || 'New Voting Session';
 		const latitude = parseFloat(formData.get('latitude')?.toString() || '0');
 		const longitude = parseFloat(formData.get('longitude')?.toString() || '0');
 		const radiusMeters = parseFloat(formData.get('radius')?.toString() || '1000');
@@ -20,6 +21,7 @@ export const actions = {
 			await trx
 				.insertInto('sessions')
 				.values({
+					name,
 					code,
 					gps_lat: latitude,
 					gps_lng: longitude,

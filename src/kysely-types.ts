@@ -48,6 +48,7 @@ export interface Sessions {
   created_at: Generated<string | null>;
   gps_lat: number;
   gps_lng: number;
+  name: string;
   owner_id: number;
   radiusMeters: number;
 }
