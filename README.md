@@ -30,4 +30,5 @@ Where X is a Restaurant.
 ## Future Improvements
 
 - [ ] Detailed "Start" form
+- [ ] Show who hasn't voted yet
 - [ ]

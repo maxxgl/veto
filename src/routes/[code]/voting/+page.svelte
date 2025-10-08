@@ -108,7 +108,7 @@
 		{@const isVetoed = isVetoedThisRound || isVetoedPrevious}
 		{@const isWinner = winningOption?.id === x.id}
 		<div
-			class="py-4 flex justify-between items-center gap-8 transition-all duration-500 border-y-1 border-neutral-700"
+			class="py-3 flex justify-between items-center gap-8 transition-all duration-500 border-y-1 border-neutral-700"
 			class:opacity-50={isVetoed}
 			class:winner-expanded={showWinner && isWinner}
 			animate:flip={{ duration: 1000 }}
@@ -164,13 +164,17 @@
 						</a>
 						<!-- eslint-enable svelte/no-navigation-without-resolve -->
 					{:else}
-						<div>{x.name}</div>
+						<span>{x.name}</span>
+					{/if}
+					{#if x.drivingTimeMinutes}
+						<span class="text-gray-400 ml-2">{x.drivingTimeMinutes} min</span>
 					{/if}
 					<div class="flex justify-between">
-						<div>{x.cuisine}</div>
-						{#if x.drivingTimeMinutes}
-							<div class="text-gray-400">{x.drivingTimeMinutes} min</div>
-						{/if}
+						<div>
+							{#if x.cuisine}
+								{String(x.cuisine).charAt(0).toUpperCase() + String(x.cuisine).slice(1)}
+							{/if}
+						</div>
 					</div>
 				</div>
 				{#if isVetoed}
@@ -184,7 +188,7 @@
 					<form method="POST" use:enhance>
 						<input type="hidden" name="option_id" value={x.id} />
 						<input type="hidden" name="round_num" value={data.round.round} />
-						<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>VETO</button>
+						<button class="btn btn-sm btn-error btn-outline" disabled={!data.isMyTurn}>VETO</button>
 					</form>
 				{/if}
 			{/if}
