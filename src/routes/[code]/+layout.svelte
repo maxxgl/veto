@@ -29,11 +29,7 @@
 <div class="flex justify-between mb-4">
 	<button class="text-left mb-2" onclick={copyCode}>
 		<div class="text-xl font-bold">
-			{#if page.route.id?.includes('[round]')}
-				Round {page.data.round?.round}
-			{:else}
-				{data.session.name}
-			{/if}
+			{data.session.name}
 		</div>
 		<div class="flex items-center">
 			<div class="text-sm opacity-70">{page.params.code}</div>

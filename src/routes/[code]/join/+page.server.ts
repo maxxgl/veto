@@ -23,7 +23,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 			.executeTakeFirst();
 
 		if (currentRound) {
-			redirect(303, `/${params.code}/${currentRound.round}`);
+			redirect(303, `/${params.code}/voting`);
 		} else {
 			redirect(303, `/${params.code}`);
 		}
@@ -66,7 +66,7 @@ export const actions = {
 			.executeTakeFirst();
 
 		if (currentRound) {
-			redirect(303, `/${params.code}/${currentRound.round}`);
+			redirect(303, `/${params.code}/voting`);
 		} else {
 			redirect(303, `/${params.code}`);
 		}

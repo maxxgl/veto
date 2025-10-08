@@ -53,15 +53,6 @@ export const actions = {
 			error(403, 'Only the session owner can start the session');
 		}
 
-		const result = await db
-			.insertInto('rounds')
-			.values({
-				round: 1,
-				session_code: params.code
-			})
-			.returningAll()
-			.executeTakeFirstOrThrow();
-
-		redirect(303, url.pathname + '/' + result.round);
+		redirect(303, url.pathname + '/voting');
 	}
 } satisfies Actions;

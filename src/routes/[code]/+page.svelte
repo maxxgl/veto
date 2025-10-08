@@ -23,7 +23,7 @@
 
 	$effect(() => {
 		if (data.currentRound) {
-			goto(resolve(`/${params.code}/${data.currentRound}`), { replaceState: true });
+			goto(resolve(`/${params.code}/voting`), { replaceState: true });
 		}
 	});
 </script>

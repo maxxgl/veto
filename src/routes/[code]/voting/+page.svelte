@@ -77,10 +77,12 @@
 	{#if data.isMyTurn}
 		<div class="alert alert-info mb-4">
 			<span>It's your turn! Veto an option below.</span>
+			<span class="font-bold">Round {data.round.round}</span>
 		</div>
 	{:else}
-		<div class="alert mb-4">
+		<div class="alert mb-4 flex justify-between">
 			<span>Waiting for other players to vote...</span>
+			<span class="font-bold">Round {data.round.round}</span>
 		</div>
 	{/if}
 {/if}
@@ -179,6 +181,7 @@
 				{:else}
 					<form method="POST" use:enhance>
 						<input type="hidden" name="option_id" value={x.id} />
+						<input type="hidden" name="round_num" value={data.round.round} />
 						<button class="btn btn-error btn-outline btn-sm" disabled={!data.isMyTurn}>VETO</button>
 					</form>
 				{/if}

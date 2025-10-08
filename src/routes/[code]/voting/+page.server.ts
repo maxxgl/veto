@@ -1,18 +1,19 @@
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib';
-import { error, redirect, fail } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params, locals, depends }) => {
 	depends('round:data');
 
-	const roundNum = Number(params.round);
-	const [round, allOptions, votesThisRound, previousVotes, users] = await Promise.all([
-		db
-			.selectFrom('rounds')
-			.selectAll()
-			.where('session_code', '=', params.code)
-			.where('round', '=', roundNum)
-			.executeTakeFirst(),
+	const round = await db
+		.selectFrom('rounds')
+		.selectAll()
+		.where('session_code', '=', params.code)
+		.orderBy('round', 'desc')
+		.executeTakeFirst();
+	const roundNum = round?.round || -1;
+
+	const [allOptions, votesThisRound, previousVotes, users] = await Promise.all([
 		db.selectFrom('options').selectAll().where('session_code', '=', params.code).execute(),
 		db
 			.selectFrom('votes')
@@ -46,17 +47,6 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 		votesThisRound.map((v) => [v.option_id, { username: v.username, userId: v.user_id }])
 	);
 
-	if (votesThisRound.length >= users.length) {
-		const nextRound = await db
-			.selectFrom('rounds')
-			.selectAll()
-			.where('session_code', '=', params.code)
-			.where('round', '=', roundNum + 1)
-			.executeTakeFirst();
-
-		if (nextRound) redirect(303, `/${params.code}/${nextRound.round}`);
-	}
-
 	const hasVoted = votesThisRound.some((v) => v.user_id === locals.user?.id);
 
 	return {
@@ -78,8 +68,9 @@ export const actions = {
 		const formData = await request.formData();
 		const optionId = formData.get('option_id');
 		if (!optionId) error(400, 'Missing option_id');
+		const roundNum = Number(formData.get('round_num')?.toString());
+		if (!roundNum) error(400, 'Missing round_num');
 
-		const roundNum = Number(params.round);
 		const [round, isParticipant, existingVote] = await Promise.all([
 			db
 				.selectFrom('rounds')
@@ -152,7 +143,7 @@ export const actions = {
 					.values({ round: roundNum + 1, session_code: params.code })
 					.execute();
 
-				redirect(303, `/${params.code}/${roundNum + 1}`);
+				return { success: true };
 			}
 		}
 	}
