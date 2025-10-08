@@ -27,7 +27,6 @@
 		return active.length === 1 ? active[0] : null;
 	});
 
-	let showWinner = $state(false);
 	let showConfetti = $state(false);
 	let confettiPieces = $state(
 		Array.from({ length: 50 }, (_, i) => ({
@@ -43,12 +42,11 @@
 
 	$effect(() => {
 		if (winningOption) {
-			showWinner = true;
 			showConfetti = true;
 			clearInterval(pollInterval);
 			setTimeout(() => {
 				showConfetti = false;
-			}, 3000);
+			}, 6000);
 		}
 	});
 
@@ -105,18 +103,15 @@
 	{/if}
 {/if}
 
-{#if showWinner && winningOption}
-	<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 animate-fade-in"></div>
-	{#if showConfetti}
-		<div class="fixed inset-0 overflow-hidden pointer-events-none z-50">
-			{#each confettiPieces as piece (piece.id)}
-				<div
-					class="absolute w-2 h-2 animate-fall"
-					style="left: {piece.left}%; animation-delay: {piece.delay}s; animation-duration: {piece.duration}s; background-color: {piece.color};"
-				></div>
-			{/each}
-		</div>
-	{/if}
+{#if showConfetti}
+	<div class="fixed inset-0 overflow-hidden pointer-events-none z-[500]">
+		{#each confettiPieces as piece (piece.id)}
+			<div
+				class="absolute w-2 h-2 animate-fall"
+				style="left: {piece.left}%; animation-delay: {piece.delay}s; animation-duration: {piece.duration}s; background-color: {piece.color};"
+			></div>
+		{/each}
+	</div>
 {/if}
 
 <div class="h-full overflow-x-auto">
@@ -128,87 +123,49 @@
 		<div
 			class="py-2 flex justify-between items-center gap-8 transition-all duration-500 border-y-1 border-neutral-700"
 			class:opacity-50={isVetoed}
-			class:winner-expanded={showWinner && isWinner}
+			class:winner-expanded={isWinner}
 			animate:flip={{ duration: 1000 }}
 		>
-			{#if isWinner && showWinner}
-				<div class="winner-content z-20">
-					<button
-						class="absolute top-4 right-4 btn btn-sm btn-circle"
-						onclick={() => (showWinner = false)}
+			<div class="flex-1">
+				{#if x.website}
+					<!-- eslint-disable svelte/no-navigation-without-resolve -->
+					<a
+						href={x.website}
+						class="link max-w-fit"
+						data-sveltekit-reload
+						target="_blank"
+						rel="noopener noreferrer"
 					>
-						✕
-					</button>
-
-					<div class="text-center mb-8">
-						<div class="text-6xl mb-4 animate-pulse">🎉</div>
-						<h1 class="text-5xl font-bold mb-2">We Have a Winner!</h1>
-					</div>
-
-					<div class="text-center">
-						<h2 class="text-4xl font-bold mb-4">{x.name}</h2>
-
-						{#if x.rating}
-							<div class="text-2xl mb-2">⭐ {x.rating}/5</div>
-						{/if}
-
-						{#if x.cuisine}
-							<div class="badge badge-primary badge-lg mb-4">
-								{String(x.cuisine).charAt(0).toUpperCase() + String(x.cuisine).slice(1)}
-							</div>
-						{/if}
-
-						{#if x.description}
-							<p class="text-lg opacity-80 mb-4">{x.description}</p>
-						{/if}
-
-						{#if x.gps_lat && x.gps_lng}
-							<div class="text-sm opacity-60">📍 {x.gps_lat}, {x.gps_lng}</div>
-						{/if}
-					</div>
-				</div>
-			{:else}
-				<div class="flex-1">
-					{#if x.website}
-						<!-- eslint-disable svelte/no-navigation-without-resolve -->
-						<a
-							href={x.website}
-							class="link max-w-fit"
-							data-sveltekit-reload
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							{x.name}
-						</a>
-						<!-- eslint-enable svelte/no-navigation-without-resolve -->
-					{:else}
-						<span>{x.name}</span>
-					{/if}
-					{#if x.drivingTimeMinutes}
-						<span class="text-gray-400 ml-2">{x.drivingTimeMinutes} min</span>
-					{/if}
-					<div>
-						{#if x.cuisine}
-							{String(x.cuisine).charAt(0).toUpperCase() + String(x.cuisine).slice(1)}
-						{:else}
-							<span class="text-gray-600">—</span>
-						{/if}
-					</div>
-				</div>
-				{#if isVetoed}
-					<span class="text-sm">
-						<div>Veto'd by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</div>
-						<div class="text-center">(Round {isVetoedPrevious?.round ?? data.round.round})</div>
-					</span>
-				{:else if isWinner}
-					<button class="btn btn-success">Winner!</button>
+						{x.name}
+					</a>
+					<!-- eslint-enable svelte/no-navigation-without-resolve -->
 				{:else}
-					<form method="POST" use:enhance>
-						<input type="hidden" name="option_id" value={x.id} />
-						<input type="hidden" name="round_num" value={data.round.round} />
-						<button class="btn btn-sm btn-error btn-outline" disabled={!data.isMyTurn}>VETO</button>
-					</form>
+					<span>{x.name}</span>
 				{/if}
+				{#if x.drivingTimeMinutes}
+					<span class="text-gray-400 ml-2">{x.drivingTimeMinutes} min</span>
+				{/if}
+				<div>
+					{#if x.cuisine}
+						{String(x.cuisine).charAt(0).toUpperCase() + String(x.cuisine).slice(1)}
+					{:else}
+						<span class="text-gray-600">—</span>
+					{/if}
+				</div>
+			</div>
+			{#if isVetoed}
+				<span class="text-sm">
+					<div>Veto'd by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</div>
+					<div class="text-center">(Round {isVetoedPrevious?.round ?? data.round.round})</div>
+				</span>
+			{:else if isWinner}
+				<button class="btn btn-success">Winner!</button>
+			{:else}
+				<form method="POST" use:enhance>
+					<input type="hidden" name="option_id" value={x.id} />
+					<input type="hidden" name="round_num" value={data.round.round} />
+					<button class="btn btn-sm btn-error btn-outline" disabled={!data.isMyTurn}>VETO</button>
+				</form>
 			{/if}
 		</div>
 	{/each}
@@ -216,52 +173,10 @@
 
 <style>
 	.winner-expanded {
-		position: fixed !important;
-		top: 50% !important;
-		left: 50% !important;
-		transform: translate(-50%, -50%) !important;
-		width: 90vw !important;
-		max-width: 48rem !important;
-		height: auto !important;
-		min-height: 60vh !important;
-		background: hsl(var(--b2)) !important;
-		border-radius: 1rem !important;
-		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
-		padding: 2rem !important;
-		z-index: 50 !important;
-		opacity: 1 !important;
-		display: flex !important;
-		align-items: center !important;
-		justify-content: center !important;
-		animation: expand-winner 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
-	}
-
-	.winner-content {
-		width: 100%;
-		animation: fade-in 0.5s ease-out 0.3s both;
-	}
-
-	@keyframes expand-winner {
-		0% {
-			transform: translate(-50%, -50%) scale(0.3);
-			opacity: 0;
-		}
-		50% {
-			transform: translate(-50%, -50%) scale(1.05);
-		}
-		100% {
-			transform: translate(-50%, -50%) scale(1);
-			opacity: 1;
-		}
-	}
-
-	@keyframes fade-in {
-		0% {
-			opacity: 0;
-		}
-		100% {
-			opacity: 1;
-		}
+		font-size: 1.2em;
+		font-weight: bold;
+		padding-top: 1em;
+		padding-bottom: 1em;
 	}
 
 	@keyframes fall {
@@ -277,9 +192,5 @@
 
 	.animate-fall {
 		animation: fall linear infinite;
-	}
-
-	.animate-fade-in {
-		animation: fade-in 0.4s ease-out;
 	}
 </style>
