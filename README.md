@@ -20,10 +20,11 @@ Where X is a Restaurant.
 
 ## Bugs
 
-- [ ] Fix getRestaurantsFromLocation if logging in initially
+- [x] Fix getRestaurantsFromLocation if logging in initially
 - [x] Fix the "create" page
 - [x] Create page loading indicator
-- [ ] Handle if the page missed the auto-advance
+- [ ] Handle if the page missed the auto-advance?
+- [x] submit form jumping problem
 - [ ]
 
 ## Future Improvements

@@ -10,7 +10,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<header class="navbar bg-base-100 border-b border-base-300">
+<header class="navbar bg-base-100 border-b border-base-300 p-2 min-h-0">
 	<div class="navbar-start">
 		<a href={resolve('/')} class="btn btn-ghost btn-sm text-xl">VETO</a>
 	</div>
@@ -24,6 +24,6 @@
 	</div>
 </header>
 
-<main class="container mx-auto p-4 h-full grid grid-rows-[min-content_min-content_1fr]">
+<main class="container mx-auto px-4 py-2 h-full grid grid-rows-[min-content_min-content_1fr]">
 	{@render children?.()}
 </main>

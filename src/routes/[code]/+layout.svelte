@@ -26,8 +26,8 @@
 	}
 </script>
 
-<div class="flex justify-between mb-4">
-	<button class="text-left mb-2" onclick={copyCode}>
+<div class="flex justify-between mb-2">
+	<button class="text-left" onclick={copyCode}>
 		<div class="text-xl font-bold">
 			{data.session.name}
 		</div>
@@ -74,7 +74,7 @@
 </div>
 
 {#if options.length > 0}
-	<div class="mb-6">
+	<div class="mb-2">
 		<RestaurantMap
 			{options}
 			userLocation={{

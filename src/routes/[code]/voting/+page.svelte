@@ -75,7 +75,7 @@
 
 {#if !winningOption}
 	{#if data.isMyTurn}
-		<div class="alert alert-info mb-4">
+		<div class="alert alert-info mb-4 flex justify-between">
 			<span>It's your turn! Veto an option below.</span>
 			<span class="font-bold">Round {data.round.round}</span>
 		</div>
@@ -135,7 +135,9 @@
 						{/if}
 
 						{#if x.cuisine}
-							<div class="badge badge-primary badge-lg mb-4">{x.cuisine}</div>
+							<div class="badge badge-primary badge-lg mb-4">
+								{String(x.cuisine).charAt(0).toUpperCase() + String(x.cuisine).slice(1)}
+							</div>
 						{/if}
 
 						{#if x.description}
@@ -182,7 +184,7 @@
 					<form method="POST" use:enhance>
 						<input type="hidden" name="option_id" value={x.id} />
 						<input type="hidden" name="round_num" value={data.round.round} />
-						<button class="btn btn-error btn-outline btn-sm" disabled={!data.isMyTurn}>VETO</button>
+						<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>VETO</button>
 					</form>
 				{/if}
 			{/if}
