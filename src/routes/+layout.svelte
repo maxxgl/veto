@@ -24,6 +24,8 @@
 	</div>
 </header>
 
-<main class="container mx-auto px-4 py-2 h-full grid grid-rows-[min-content_min-content_1fr]">
+<main
+	class="container mx-auto px-4 py-2 h-full grid grid-rows-[min-content_min-content_min-content_1fr]"
+>
 	{@render children?.()}
 </main>

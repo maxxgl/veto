@@ -76,13 +76,31 @@
 {#if !winningOption}
 	{#if data.isMyTurn}
 		<div class="alert alert-info mb-4 flex justify-between">
-			<span>It's your turn! Veto an option below.</span>
-			<span class="font-bold">Round {data.round.round}</span>
+			<span>It's your turn!</span>
+			<div>
+				<span class="font-bold">Round {data.round.round}, </span>
+				<span>
+					{Math.ceil(
+						(data.options.length - data.round.round * data.participants.length) /
+							data.participants.length
+					)}
+					to go
+				</span>
+			</div>
 		</div>
 	{:else}
 		<div class="alert mb-4 flex justify-between">
 			<span>Waiting for other players to vote...</span>
-			<span class="font-bold">Round {data.round.round}</span>
+			<div>
+				<span class="font-bold">Round {data.round.round}, </span>
+				<span>
+					{Math.ceil(
+						(data.options.length - data.round.round * data.participants.length) /
+							data.participants.length
+					)}
+					to go
+				</span>
+			</div>
 		</div>
 	{/if}
 {/if}
@@ -108,7 +126,7 @@
 		{@const isVetoed = isVetoedThisRound || isVetoedPrevious}
 		{@const isWinner = winningOption?.id === x.id}
 		<div
-			class="py-3 flex justify-between items-center gap-8 transition-all duration-500 border-y-1 border-neutral-700"
+			class="py-2 flex justify-between items-center gap-8 transition-all duration-500 border-y-1 border-neutral-700"
 			class:opacity-50={isVetoed}
 			class:winner-expanded={showWinner && isWinner}
 			animate:flip={{ duration: 1000 }}
@@ -169,12 +187,12 @@
 					{#if x.drivingTimeMinutes}
 						<span class="text-gray-400 ml-2">{x.drivingTimeMinutes} min</span>
 					{/if}
-					<div class="flex justify-between">
-						<div>
-							{#if x.cuisine}
-								{String(x.cuisine).charAt(0).toUpperCase() + String(x.cuisine).slice(1)}
-							{/if}
-						</div>
+					<div>
+						{#if x.cuisine}
+							{String(x.cuisine).charAt(0).toUpperCase() + String(x.cuisine).slice(1)}
+						{:else}
+							<span class="text-gray-600">—</span>
+						{/if}
 					</div>
 				</div>
 				{#if isVetoed}
