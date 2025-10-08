@@ -99,86 +99,93 @@
 	{/if}
 {/if}
 
-{#each sortedOptions as x (x.id)}
-	{@const isVetoedThisRound = data.vetoedOptions[x.id]}
-	{@const isVetoedPrevious = data.previousVotesMap[x.id]}
-	{@const isVetoed = isVetoedThisRound || isVetoedPrevious}
-	{@const isWinner = winningOption?.id === x.id}
-	<div
-		class="py-4 flex justify-between items-center gap-8 transition-all duration-500"
-		class:opacity-50={isVetoed}
-		class:winner-expanded={showWinner && isWinner}
-		animate:flip={{ duration: 800 }}
-	>
-		{#if isWinner && showWinner}
-			<div class="winner-content z-20">
-				<button
-					class="absolute top-4 right-4 btn btn-sm btn-circle"
-					onclick={() => (showWinner = false)}
-				>
-					✕
-				</button>
-
-				<div class="text-center mb-8">
-					<div class="text-6xl mb-4 animate-pulse">🎉</div>
-					<h1 class="text-5xl font-bold mb-2">We Have a Winner!</h1>
-				</div>
-
-				<div class="text-center">
-					<h2 class="text-4xl font-bold mb-4">{x.name}</h2>
-
-					{#if x.rating}
-						<div class="text-2xl mb-2">⭐ {x.rating}/5</div>
-					{/if}
-
-					{#if x.cuisine}
-						<div class="badge badge-primary badge-lg mb-4">{x.cuisine}</div>
-					{/if}
-
-					{#if x.description}
-						<p class="text-lg opacity-80 mb-4">{x.description}</p>
-					{/if}
-
-					{#if x.gps_lat && x.gps_lng}
-						<div class="text-sm opacity-60">📍 {x.gps_lat}, {x.gps_lng}</div>
-					{/if}
-				</div>
-			</div>
-		{:else}
-			<div class="flex-1">
-				{#if x.website}
-					<!-- eslint-disable svelte/no-navigation-without-resolve -->
-					<a
-						href={x.website}
-						class="link max-w-fit"
-						data-sveltekit-reload
-						target="_blank"
-						rel="noopener noreferrer"
+<div class="h-full overflow-x-auto">
+	{#each sortedOptions as x (x.id)}
+		{@const isVetoedThisRound = data.vetoedOptions[x.id]}
+		{@const isVetoedPrevious = data.previousVotesMap[x.id]}
+		{@const isVetoed = isVetoedThisRound || isVetoedPrevious}
+		{@const isWinner = winningOption?.id === x.id}
+		<div
+			class="py-4 flex justify-between items-center gap-8 transition-all duration-500 border-y-1 border-neutral-700"
+			class:opacity-50={isVetoed}
+			class:winner-expanded={showWinner && isWinner}
+			animate:flip={{ duration: 1000 }}
+		>
+			{#if isWinner && showWinner}
+				<div class="winner-content z-20">
+					<button
+						class="absolute top-4 right-4 btn btn-sm btn-circle"
+						onclick={() => (showWinner = false)}
 					>
-						{x.name}
-					</a>
-					<!-- eslint-enable svelte/no-navigation-without-resolve -->
-				{:else}
-					<div>{x.name}</div>
-				{/if}
-				<div class="ml-auto">{x.cuisine}</div>
-			</div>
-			{#if isVetoed}
-				<span class="text-sm">
-					<div>Veto'd by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</div>
-					<div class="text-center">(Round {isVetoedPrevious?.round ?? data.round.round})</div>
-				</span>
-			{:else if isWinner}
-				<button class="btn btn-success">Winner!</button>
+						✕
+					</button>
+
+					<div class="text-center mb-8">
+						<div class="text-6xl mb-4 animate-pulse">🎉</div>
+						<h1 class="text-5xl font-bold mb-2">We Have a Winner!</h1>
+					</div>
+
+					<div class="text-center">
+						<h2 class="text-4xl font-bold mb-4">{x.name}</h2>
+
+						{#if x.rating}
+							<div class="text-2xl mb-2">⭐ {x.rating}/5</div>
+						{/if}
+
+						{#if x.cuisine}
+							<div class="badge badge-primary badge-lg mb-4">{x.cuisine}</div>
+						{/if}
+
+						{#if x.description}
+							<p class="text-lg opacity-80 mb-4">{x.description}</p>
+						{/if}
+
+						{#if x.gps_lat && x.gps_lng}
+							<div class="text-sm opacity-60">📍 {x.gps_lat}, {x.gps_lng}</div>
+						{/if}
+					</div>
+				</div>
 			{:else}
-				<form method="POST" use:enhance>
-					<input type="hidden" name="option_id" value={x.id} />
-					<button class="btn btn-error btn-outline" disabled={!data.isMyTurn}>VETO</button>
-				</form>
+				<div class="flex-1">
+					{#if x.website}
+						<!-- eslint-disable svelte/no-navigation-without-resolve -->
+						<a
+							href={x.website}
+							class="link max-w-fit"
+							data-sveltekit-reload
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{x.name}
+						</a>
+						<!-- eslint-enable svelte/no-navigation-without-resolve -->
+					{:else}
+						<div>{x.name}</div>
+					{/if}
+					<div class="flex justify-between">
+						<div>{x.cuisine}</div>
+						{#if x.drivingTimeMinutes}
+							<div class="text-gray-400">{x.drivingTimeMinutes} min</div>
+						{/if}
+					</div>
+				</div>
+				{#if isVetoed}
+					<span class="text-sm">
+						<div>Veto'd by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</div>
+						<div class="text-center">(Round {isVetoedPrevious?.round ?? data.round.round})</div>
+					</span>
+				{:else if isWinner}
+					<button class="btn btn-success">Winner!</button>
+				{:else}
+					<form method="POST" use:enhance>
+						<input type="hidden" name="option_id" value={x.id} />
+						<button class="btn btn-error btn-outline btn-sm" disabled={!data.isMyTurn}>VETO</button>
+					</form>
+				{/if}
 			{/if}
-		{/if}
-	</div>
-{/each}
+		</div>
+	{/each}
+</div>
 
 <style>
 	.winner-expanded {
