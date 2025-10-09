@@ -30,7 +30,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const isPublicRoute = publicRoutes.some((route) => event.url.pathname === route);
 
 	if (!event.locals.user && !isPublicRoute) {
-		redirect(303, '/login');
+		const redirectParam = encodeURIComponent(event.url.pathname + event.url.search);
+		redirect(303, `/login?redirect=${redirectParam}`);
 	}
 
 	return resolve(event);

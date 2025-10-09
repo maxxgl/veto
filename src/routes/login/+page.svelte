@@ -1,12 +1,13 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
 	let { form }: { form: ActionData } = $props();
 </script>
 
 <div class="container mx-auto max-w-md p-8">
-	<h1 class="mb-6 text-3xl font-bold">Enter your name</h1>
-	<form method="POST" class="space-y-4">
+	<h1 class="mb-6 text-3xl font-bold">Enter your name/nickname/username</h1>
+	<form method="POST" class="space-y-4" use:enhance>
 		<div class="form-control">
 			<label for="username" class="label">
 				<span class="label-text">Name</span>

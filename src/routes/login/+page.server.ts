@@ -41,15 +41,7 @@ export const actions: Actions = {
 			maxAge: 60 * 60 * 24 * 365
 		});
 
-		const action = url.searchParams.get('action');
-		const code = url.searchParams.get('code');
-
-		if (action === 'create') {
-			redirect(303, '/create');
-		} else if (action === 'join' && code) {
-			redirect(303, '/' + code + '/join');
-		}
-
-		redirect(302, '/');
+		const redirectTo = url.searchParams.get('redirect');
+		redirect(303, redirectTo || '/');
 	}
 };

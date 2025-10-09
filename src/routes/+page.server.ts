@@ -12,7 +12,8 @@ export const actions = {
 		}
 
 		if (!locals.user) {
-			throw redirect(303, `/login?action=join&code=${code}`);
+			const url = encodeURIComponent('/' + code + '/join');
+			throw redirect(303, `/login?redirect=${url}`);
 		}
 
 		const session = await db
