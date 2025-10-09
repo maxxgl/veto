@@ -21,7 +21,14 @@ export const load: PageServerLoad = async ({ params, locals, depends }) => {
 		.orderBy('round', 'desc')
 		.executeTakeFirst();
 
+	const options = await db
+		.selectFrom('options')
+		.selectAll()
+		.where('session_code', '=', params.code)
+		.execute();
+
 	return {
+		options,
 		isParticipant: !!isParticipant,
 		currentUser: locals.user,
 		currentRound: currentRound?.round
