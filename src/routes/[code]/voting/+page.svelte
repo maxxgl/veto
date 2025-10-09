@@ -156,7 +156,7 @@
 			{#if isVetoed}
 				<span class="text-sm">
 					<div>Veto'd by {isVetoedThisRound?.username ?? isVetoedPrevious?.username}</div>
-					<div class="text-center">(Round {isVetoedPrevious?.round ?? data.round.round})</div>
+					<div>In Round {isVetoedPrevious?.round ?? data.round.round}</div>
 				</span>
 			{:else if isWinner}
 				<button class="btn btn-success">Winner!</button>
