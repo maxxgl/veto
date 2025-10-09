@@ -60,16 +60,18 @@
 	</div>
 {/if}
 
-{#each data.options as x (x.id)}
-	<div class="py-4 flex justify-between items-center gap-8">
-		<div class="flex-1">
-			<div class="flex">
-				<span class="font-bold">{x.name}</span>: {x.description}
-				<span class="ml-auto">{x.cuisine}</span>
-			</div>
-			<div class="flex">
-				{x.description} <span class="ml-auto">{x.gps_lat}, {x.gps_lng}</span>
-			</div>
-		</div>
-	</div>
-{/each}
+<div class="prose max-w-none">
+	<h2>How Veto Works</h2>
+	<ol>
+		<li><strong>Join the session</strong> — All participants join using this session code.</li>
+		<li>
+			<strong>Start voting</strong> — The session owner starts the session to begin voting rounds.
+		</li>
+		<li>
+			<strong>Vote to veto</strong> — Each round, everyone votes on options they want to eliminate.
+		</li>
+		<li>
+			<strong>Consensus wins</strong> — When only one option remains, that's your group's choice!
+		</li>
+	</ol>
+</div>
