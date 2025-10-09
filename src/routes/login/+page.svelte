@@ -6,7 +6,7 @@
 </script>
 
 <div class="container mx-auto max-w-md p-8">
-	<h1 class="mb-6 text-3xl font-bold">Enter your name/nickname/username</h1>
+	<h1 class="mb-6 text-3xl font-bold">Enter a Username</h1>
 	<form method="POST" class="space-y-4" use:enhance>
 		<div class="form-control">
 			<label for="username" class="label">
