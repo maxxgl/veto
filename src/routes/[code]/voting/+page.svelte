@@ -114,7 +114,7 @@
 	</div>
 {/if}
 
-<div class="overflow-y-auto" style="max-height: calc(100dvh - var(--consumed-height, 300px));">
+<div class="h-full overflow-y-auto">
 	{#each sortedOptions as x (x.id)}
 		{@const isVetoedThisRound = data.vetoedOptions[x.id]}
 		{@const isVetoedPrevious = data.previousVotesMap[x.id]}
