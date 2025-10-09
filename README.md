@@ -23,9 +23,13 @@ Where X is a Restaurant.
 - [x] Fix getRestaurantsFromLocation if logging in initially
 - [x] Fix the "create" page
 - [x] Create page loading indicator
-- [ ] Handle if the page missed the auto-advance?
+- [x] Handle if the page missed the auto-advance?
 - [x] submit form jumping problem
-- [ ]
+- [x] align (Round)
+- [x] join link
+- [x] login redirect
+- [x] scroll view height
+- [x] input zoom
 
 ## Future Improvements
 

@@ -2,7 +2,9 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib';
 import { error, redirect } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ params, locals }) => {
+export const load: PageServerLoad = async ({ params, locals, depends }) => {
+	depends('session:data');
+
 	const isParticipant = locals.user
 		? await db
 				.selectFrom('session_players')
