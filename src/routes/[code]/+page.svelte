@@ -60,18 +60,15 @@
 	</div>
 {/if}
 
-<div class="prose max-w-none">
-	<h2>How Veto Works</h2>
-	<ol>
-		<li><strong>Join the session</strong> — All participants join using this session code.</li>
-		<li>
-			<strong>Start voting</strong> — The session owner starts the session to begin voting rounds.
-		</li>
-		<li>
-			<strong>Vote to veto</strong> — Each round, everyone votes on options they want to eliminate.
-		</li>
-		<li>
-			<strong>Consensus wins</strong> — When only one option remains, that's your group's choice!
-		</li>
-	</ol>
+<div class="card bg-base-200">
+	<div class="card-body">
+		<h2 class="card-title">We're gonna figure out where to eat.</h2>
+		<div class="steps steps-vertical lg:steps-horizontal">
+			<div class="step step-primary">Join the session and wait for voting to start</div>
+			<div class="step step-primary">Veto the option you DON'T want</div>
+			<div class="step step-primary">Wait for everyone else to do the same</div>
+			<div class="step step-primary">Repeat</div>
+			<div class="step step-primary">Last option alive wins</div>
+		</div>
+	</div>
 </div>
